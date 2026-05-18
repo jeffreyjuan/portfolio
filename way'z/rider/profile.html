@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Way'z — Profile</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/rider.css">
+</head>
+<body>
+<div class="wz-page-layout">
+  <header class="wz-rider-header">
+    <a href="../index.html" class="wz-logo"><span>way'z</span></a>
+    <nav class="wz-rider-nav">
+      <a href="dashboard.html">🗺️ <span class="wz-hide-mobile">Book</span></a>
+      <a href="history.html">🕐 <span class="wz-hide-mobile">History</span></a>
+      <a href="profile.html" class="active">👤 <span class="wz-hide-mobile">Profile</span></a>
+      <a href="settings.html">⚙️ <span class="wz-hide-mobile">Settings</span></a>
+    </nav>
+  </header>
+
+  <div class="wz-page-content">
+    <!-- Profile Header -->
+    <div class="wz-profile-header anim-fade-in">
+      <div class="wz-profile-avatar">
+        KH
+        <div class="edit-badge">📷</div>
+      </div>
+      <h2 style="font-size:var(--wz-text-2xl);">Karim Haddad</h2>
+      <p style="color:var(--wz-text-muted);font-size:var(--wz-text-sm);">+961 71 123 456</p>
+      <div class="wz-profile-stats">
+        <div class="wz-profile-stat"><div class="value">47</div><div class="label">Rides</div></div>
+        <div class="wz-profile-stat"><div class="value">⭐ 4.8</div><div class="label">Rating</div></div>
+        <div class="wz-profile-stat"><div class="value">$210</div><div class="label">This Month</div></div>
+      </div>
+    </div>
+
+    <hr class="wz-divider">
+
+    <!-- Saved Places -->
+    <div class="wz-settings-group anim-fade-in-up">
+      <h3>Saved Places</h3>
+      <div class="wz-saved-place"><span class="place-icon">🏠</span><div><div class="place-name">Home</div><div class="place-addr">Achrafieh, Beirut</div></div></div>
+      <div class="wz-saved-place"><span class="place-icon">💼</span><div><div class="place-name">Work</div><div class="place-addr">Downtown Beirut</div></div></div>
+      <div class="wz-saved-place" style="cursor:pointer;color:var(--wz-purple-light);"><span class="place-icon">➕</span><div><div class="place-name">Add a place</div></div></div>
+    </div>
+
+    <!-- Payment -->
+    <div class="wz-settings-group anim-fade-in-up" style="animation-delay:0.1s;">
+      <h3>Payment</h3>
+      <div class="wz-settings-item">
+        <div class="left"><div class="icon">💳</div><span>Whish Wallet</span></div>
+        <span class="wz-badge wz-badge-success">Default</span>
+      </div>
+      <div class="wz-settings-item" onclick="WZ_APP.showToast('Whish wallet management coming soon','info')">
+        <div class="left"><div class="icon">🪙</div><span>Manage Whish Wallet</span></div>
+        <span class="chevron">›</span>
+      </div>
+    </div>
+
+    <!-- Account -->
+    <div class="wz-settings-group anim-fade-in-up" style="animation-delay:0.2s;">
+      <h3>Account</h3>
+      <div class="wz-settings-item">
+        <div class="left"><div class="icon">👤</div><span>Edit Profile</span></div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="wz-settings-item">
+        <div class="left"><div class="icon">🔔</div><span>Notifications</span></div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="wz-settings-item">
+        <div class="left"><div class="icon">🌐</div><span>Language</span></div>
+        <span style="font-size:var(--wz-text-sm);color:var(--wz-text-muted);">English</span>
+      </div>
+      <div class="wz-settings-item">
+        <div class="left"><div class="icon">🛡️</div><span>Safety</span></div>
+        <span class="chevron">›</span>
+      </div>
+    </div>
+
+    <!-- Support -->
+    <div class="wz-settings-group anim-fade-in-up" style="animation-delay:0.3s;">
+      <h3>Support</h3>
+      <div class="wz-settings-item">
+        <div class="left"><div class="icon">❓</div><span>Help Center</span></div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="wz-settings-item">
+        <div class="left"><div class="icon">📋</div><span>Terms of Service</span></div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="wz-settings-item">
+        <div class="left"><div class="icon">🔒</div><span>Privacy Policy</span></div>
+        <span class="chevron">›</span>
+      </div>
+    </div>
+
+    <!-- Logout -->
+    <button class="wz-btn wz-btn-secondary" style="width:100%;margin-top:var(--wz-space-4);color:var(--wz-error);border-color:rgba(255,82,82,0.3);" onclick="WZ_APP.logout()">
+      Sign Out
+    </button>
+    <p style="text-align:center;margin-top:var(--wz-space-4);font-size:var(--wz-text-xs);color:var(--wz-text-muted);">Way'z v1.0.0</p>
+  </div>
+</div>
+
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>

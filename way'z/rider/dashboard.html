@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Way'z — Book a Ride</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/rider.css">
+  <style>#rider-map { width:100%; height:100%; }</style>
+</head>
+<body>
+<div class="wz-rider-app">
+  <!-- Header -->
+  <header class="wz-rider-header">
+    <a href="../index.html" class="wz-logo"><span>way'z</span></a>
+    <nav class="wz-rider-nav">
+      <a href="dashboard.html" class="active">🗺️ <span class="wz-hide-mobile">Book</span></a>
+      <a href="history.html">🕐 <span class="wz-hide-mobile">History</span></a>
+      <a href="profile.html">👤 <span class="wz-hide-mobile">Profile</span></a>
+      <a href="settings.html">⚙️ <span class="wz-hide-mobile">Settings</span></a>
+    </nav>
+  </header>
+
+  <!-- Map -->
+  <div class="wz-map-area">
+    <div id="rider-map"></div>
+
+    <!-- Booking Panel -->
+    <div class="wz-booking-panel" id="booking-panel">
+      <div class="wz-booking-card">
+        <h3 style="font-size:var(--wz-text-lg);margin-bottom:var(--wz-space-4);font-family:var(--wz-font-display);">Where to?</h3>
+
+        <!-- Location Inputs -->
+        <div class="wz-location-inputs">
+          <div class="wz-location-dot pickup"></div>
+          <div class="wz-location-line"></div>
+          <div class="wz-location-dot dest"></div>
+          <input type="text" class="wz-input" id="pickup-input" placeholder="Pickup location" autocomplete="off">
+          <input type="text" class="wz-input" id="dest-input" placeholder="Where are you going?" autocomplete="off">
+          <div class="wz-suggestions" id="suggestions"></div>
+        </div>
+
+        <!-- Saved Places -->
+        <div style="margin-bottom:var(--wz-space-4);">
+          <div class="wz-saved-place" onclick="quickDest('l2')"><span class="place-icon">🏠</span><div><div class="place-name">Home</div><div class="place-addr">Achrafieh, Beirut</div></div></div>
+          <div class="wz-saved-place" onclick="quickDest('l6')"><span class="place-icon">💼</span><div><div class="place-name">Work</div><div class="place-addr">Downtown Beirut</div></div></div>
+          <div class="wz-saved-place" onclick="quickDest('l16')"><span class="place-icon">✈️</span><div><div class="place-name">Airport</div><div class="place-addr">Rafic Hariri Intl</div></div></div>
+        </div>
+
+        <!-- Vehicle Selector -->
+        <div class="wz-vehicle-selector">
+          <div class="wz-vehicle-option selected" data-type="economy"><div class="icon">🚗</div><div class="name">Economy</div><div class="price" id="price-economy">—</div></div>
+          <div class="wz-vehicle-option" data-type="comfort"><div class="icon">🚙</div><div class="name">Comfort</div><div class="price" id="price-comfort">—</div></div>
+          <div class="wz-vehicle-option" data-type="premium"><div class="icon">✨</div><div class="name">Premium</div><div class="price" id="price-premium">—</div></div>
+          <div class="wz-vehicle-option" data-type="xl"><div class="icon">🚐</div><div class="name">XL</div><div class="price" id="price-xl">—</div></div>
+        </div>
+
+        <!-- Fare Estimate -->
+        <div class="wz-fare-estimate">
+          <div>
+            <div class="label">Estimated fare</div>
+            <div class="amount" id="fare-amount">—</div>
+          </div>
+          <div class="wz-fare-details">
+            <span id="fare-distance">—</span>
+            <span>·</span>
+            <span id="fare-time">—</span>
+          </div>
+        </div>
+
+        <!-- Request Button -->
+        <button class="wz-btn wz-btn-primary wz-request-btn" id="request-ride-btn">Request Ride</button>
+      </div>
+    </div>
+
+    <!-- Searching Overlay -->
+    <div class="wz-searching-overlay" id="searching-overlay" style="display:none;">
+      <div class="wz-searching-ripple">
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="center"></div>
+      </div>
+      <div class="wz-searching-text">Finding your driver...</div>
+      <button class="wz-btn wz-btn-ghost" style="margin-top:var(--wz-space-4);" onclick="WZ_RIDER.cancelRide()">Cancel</button>
+    </div>
+
+    <!-- Driver Found Card -->
+    <div class="wz-driver-card wz-glass" id="driver-card" style="display:none;">
+      <div class="wz-driver-info">
+        <div class="wz-avatar wz-avatar-lg">HF</div>
+        <div class="wz-driver-details" style="flex:1;">
+          <h3 class="driver-name">Hassan Fawaz</h3>
+          <div class="rating driver-rating">★ 4.9</div>
+          <div class="wz-driver-vehicle driver-vehicle">Silver Toyota Corolla · B 123456</div>
+        </div>
+        <div class="wz-driver-eta">
+          <div class="time">3</div>
+          <div class="label">min away</div>
+        </div>
+      </div>
+      <div class="wz-trip-progress">
+        <div class="wz-trip-progress-bar"><div class="wz-trip-progress-fill" style="width:15%"></div></div>
+        <div class="wz-trip-labels"><span>Driver en route</span><span>Pickup</span></div>
+      </div>
+      <div class="wz-driver-actions">
+        <button class="wz-btn wz-btn-secondary" onclick="WZ_APP.showToast('Calling driver...','info')">📞 Call</button>
+        <button class="wz-btn wz-btn-secondary" onclick="WZ_APP.showToast('Chat coming soon','info')">💬 Message</button>
+        <button class="wz-btn wz-btn-ghost" onclick="WZ_RIDER.cancelRide()" style="color:var(--wz-error);">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const GOOGLE_MAPS_API_KEY = "YOUR_API_KEY_HERE";
+  const WZ_GOOGLE_MAPS_LIBRARIES = "places";
+  const wzGoogleMapsScript = document.createElement('script');
+  wzGoogleMapsScript.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=${WZ_GOOGLE_MAPS_LIBRARIES}`;
+  wzGoogleMapsScript.defer = true;
+  document.head.appendChild(wzGoogleMapsScript);
+</script>
+<script src="../js/map.js"></script>
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/rider.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  WZ_RIDER.initDashboard();
+});
+function quickDest(id) {
+  const loc = WZ_DATA.getLocation(id);
+  if (!loc) return;
+  document.getElementById('dest-input').value = loc.name;
+  WZ_RIDER.destination = loc;
+  WZ_RIDER.setMapMarker('destination', loc);
+  WZ_RIDER.updateFareEstimate();
+  // Update all vehicle prices
+  if (WZ_RIDER.pickup && WZ_RIDER.destination) {
+    const dist = WZ_DATA.getDistance(WZ_RIDER.pickup.lat, WZ_RIDER.pickup.lng, loc.lat, loc.lng);
+    const dur = Math.round(dist * 3.5 + 5);
+    WZ_DATA.vehicleTypes.forEach(v => {
+      const priceEl = document.getElementById('price-' + v.id);
+      if (priceEl) priceEl.textContent = '$' + WZ_DATA.calculateFare(dist, dur, v.id).toFixed(2);
+    });
+  }
+}
+</script>
+</body>
+</html>

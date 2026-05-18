@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Way'z Admin — Users</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+<div class="wz-admin-layout">
+  <aside class="wz-admin-sidebar">
+    <div class="logo-area"><div class="wz-logo"><span>way'z</span></div><small>Admin Panel</small></div>
+    <nav class="wz-admin-nav">
+      <a href="dashboard.html"><span class="icon">📊</span> Dashboard</a>
+      <a href="users.html" class="active"><span class="icon">👥</span> Users</a>
+      <a href="drivers.html"><span class="icon">🚘</span> Drivers</a>
+      <a href="rides.html"><span class="icon">🗺️</span> Rides</a>
+      <a href="settings.html"><span class="icon">⚙️</span> Settings</a>
+      <div class="spacer"></div>
+      <a href="../index.html"><span class="icon">🏠</span> Back to Site</a>
+    </nav>
+    <div class="wz-sidebar-footer"><div class="wz-admin-user"><div class="wz-avatar" style="width:32px;height:32px;font-size:11px;">AD</div><div><div style="font-weight:500;font-size:var(--wz-text-sm);">Admin</div></div></div></div>
+  </aside>
+  <main class="wz-admin-main">
+    <div class="wz-admin-topbar">
+      <h1>Users</h1>
+      <div class="wz-admin-search"><span>🔍</span><input type="text" placeholder="Search users..." oninput="filterUsers(this.value)"></div>
+    </div>
+
+    <div style="display:flex;gap:var(--wz-space-4);margin-bottom:var(--wz-space-6);">
+      <div class="wz-glass" style="flex:1;padding:var(--wz-space-4);border-radius:var(--wz-radius-lg);text-align:center;">
+        <div style="font-size:var(--wz-text-2xl);font-weight:800;">12,450</div>
+        <div style="font-size:var(--wz-text-xs);color:var(--wz-text-muted);">Total Users</div>
+      </div>
+      <div class="wz-glass" style="flex:1;padding:var(--wz-space-4);border-radius:var(--wz-radius-lg);text-align:center;">
+        <div style="font-size:var(--wz-text-2xl);font-weight:800;color:var(--wz-success);">11,890</div>
+        <div style="font-size:var(--wz-text-xs);color:var(--wz-text-muted);">Active</div>
+      </div>
+      <div class="wz-glass" style="flex:1;padding:var(--wz-space-4);border-radius:var(--wz-radius-lg);text-align:center;">
+        <div style="font-size:var(--wz-text-2xl);font-weight:800;color:var(--wz-warning);">520</div>
+        <div style="font-size:var(--wz-text-xs);color:var(--wz-text-muted);">New This Week</div>
+      </div>
+    </div>
+
+    <div class="wz-admin-card">
+      <table class="wz-data-table">
+        <thead><tr><th>User</th><th>Phone</th><th>Rides</th><th>Rating</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody id="users-tbody"></tbody>
+      </table>
+      <div class="wz-pagination">
+        <div class="wz-page-btn active">1</div>
+        <div class="wz-page-btn">2</div>
+        <div class="wz-page-btn">3</div>
+        <div class="wz-page-btn">→</div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/admin.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => WZ_ADMIN.initUsers());
+function filterUsers(q) {
+  document.querySelectorAll('#users-tbody tr').forEach(row => {
+    row.style.display = row.textContent.toLowerCase().includes(q.toLowerCase()) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Way'z Admin — Drivers</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+<div class="wz-admin-layout">
+  <aside class="wz-admin-sidebar">
+    <div class="logo-area"><div class="wz-logo"><span>way'z</span></div><small>Admin Panel</small></div>
+    <nav class="wz-admin-nav">
+      <a href="dashboard.html"><span class="icon">📊</span> Dashboard</a>
+      <a href="users.html"><span class="icon">👥</span> Users</a>
+      <a href="drivers.html" class="active"><span class="icon">🚘</span> Drivers</a>
+      <a href="rides.html"><span class="icon">🗺️</span> Rides</a>
+      <a href="settings.html"><span class="icon">⚙️</span> Settings</a>
+      <div class="spacer"></div>
+      <a href="../index.html"><span class="icon">🏠</span> Back to Site</a>
+    </nav>
+    <div class="wz-sidebar-footer"><div class="wz-admin-user"><div class="wz-avatar" style="width:32px;height:32px;font-size:11px;">AD</div><div><div style="font-weight:500;font-size:var(--wz-text-sm);">Admin</div></div></div></div>
+  </aside>
+  <main class="wz-admin-main">
+    <div class="wz-admin-topbar">
+      <h1>Drivers</h1>
+      <div class="wz-admin-search"><span>🔍</span><input type="text" placeholder="Search drivers..."></div>
+    </div>
+
+    <!-- Pending Approvals -->
+    <div class="wz-admin-card" style="border-color:var(--wz-warning);margin-bottom:var(--wz-space-6);">
+      <div class="card-header">
+        <h3>⏳ Pending Approvals (2)</h3>
+      </div>
+      <div style="display:flex;gap:var(--wz-space-4);">
+        <div class="wz-glass" style="flex:1;padding:var(--wz-space-4);border-radius:var(--wz-radius-lg);">
+          <div style="display:flex;align-items:center;gap:var(--wz-space-3);margin-bottom:var(--wz-space-3);">
+            <div class="wz-avatar" style="width:40px;height:40px;">SK</div>
+            <div><div style="font-weight:600;">Samir Khalil</div><div style="font-size:var(--wz-text-xs);color:var(--wz-text-muted);">Honda Civic 2021 · Economy</div></div>
+          </div>
+          <div style="display:flex;gap:var(--wz-space-2);">
+            <button class="wz-btn wz-accept-btn" style="flex:1;padding:var(--wz-space-2);font-size:var(--wz-text-xs);" onclick="WZ_APP.showToast('Driver approved!','success')">✓ Approve</button>
+            <button class="wz-btn wz-decline-btn" style="flex:1;padding:var(--wz-space-2);font-size:var(--wz-text-xs);" onclick="WZ_APP.showToast('Driver rejected','error')">✕ Reject</button>
+          </div>
+        </div>
+        <div class="wz-glass" style="flex:1;padding:var(--wz-space-4);border-radius:var(--wz-radius-lg);">
+          <div style="display:flex;align-items:center;gap:var(--wz-space-3);margin-bottom:var(--wz-space-3);">
+            <div class="wz-avatar" style="width:40px;height:40px;">MN</div>
+            <div><div style="font-weight:600;">Marwan Nassar</div><div style="font-size:var(--wz-text-xs);color:var(--wz-text-muted);">Kia Sportage 2023 · Comfort</div></div>
+          </div>
+          <div style="display:flex;gap:var(--wz-space-2);">
+            <button class="wz-btn wz-accept-btn" style="flex:1;padding:var(--wz-space-2);font-size:var(--wz-text-xs);" onclick="WZ_APP.showToast('Driver approved!','success')">✓ Approve</button>
+            <button class="wz-btn wz-decline-btn" style="flex:1;padding:var(--wz-space-2);font-size:var(--wz-text-xs);" onclick="WZ_APP.showToast('Driver rejected','error')">✕ Reject</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Drivers Table -->
+    <div class="wz-admin-card">
+      <div class="card-header"><h3>All Drivers</h3></div>
+      <table class="wz-data-table">
+        <thead><tr><th>Driver</th><th>Phone</th><th>Trips</th><th>Rating</th><th>Status</th><th>Earnings/mo</th><th>Action</th></tr></thead>
+        <tbody id="drivers-tbody"></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/admin.js"></script>
+<script>document.addEventListener('DOMContentLoaded', () => WZ_ADMIN.initDrivers());</script>
+</body>
+</html>

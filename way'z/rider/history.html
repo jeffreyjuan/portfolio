@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Way'z — Ride History</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/rider.css">
+</head>
+<body>
+<div class="wz-rider-app" style="display:flex;flex-direction:column;height:100vh;">
+  
+  <header class="wz-rider-header" style="position:static;">
+    <a href="../index.html" class="wz-logo"><span>way'z</span></a>
+    <nav class="wz-rider-nav">
+      <a href="dashboard.html">🗺️ <span class="wz-hide-mobile">Book</span></a>
+      <a href="history.html" class="active">🕐 <span class="wz-hide-mobile">History</span></a>
+      <a href="profile.html">👤 <span class="wz-hide-mobile">Profile</span></a>
+      <a href="settings.html">⚙️ <span class="wz-hide-mobile">Settings</span></a>
+    </nav>
+  </header>
+
+  <main style="flex:1; overflow-y:auto; padding:var(--wz-space-5); max-width:800px; margin:0 auto; width:100%;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--wz-space-6);">
+      <h1 style="font-family:var(--wz-font-display); font-size:var(--wz-text-2xl);">Your Rides</h1>
+      <button class="wz-btn wz-btn-secondary" style="border-radius:var(--wz-radius-full); font-size:var(--wz-text-xs);" onclick="exportData()">📥 Export</button>
+    </div>
+
+    <div id="history-container" style="display: flex; flex-direction: column; gap: var(--wz-space-4);">
+      </div>
+
+  </main>
+</div>
+
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  renderHistory();
+});
+
+function renderHistory() {
+  const container = document.getElementById('history-container');
+  const rides = WZ_DATA.rideHistory; // Pull directly from our persistent DB
+
+  if (!rides || rides.length === 0) {
+    container.innerHTML = `
+      <div style="text-align:center; padding:var(--wz-space-8) 0; color:var(--wz-text-muted);">
+        <div style="font-size:48px; margin-bottom:var(--wz-space-4);">🗺️</div>
+        <h3>No rides yet</h3>
+        <p>Your completed trips will appear here.</p>
+        <button class="wz-btn wz-btn-primary" style="margin-top:var(--wz-space-4);" onclick="window.location.href='dashboard.html'">Book a Ride</button>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = rides.map(ride => {
+    // Format date nicely
+    const dateObj = new Date(ride.date);
+    const dateStr = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const timeStr = dateObj.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    
+    // Get driver info
+    const driver = WZ_DATA.drivers.find(d => d.id === ride.driverId) || { name: 'Unknown Driver', vehicle: { make: 'Car' } };
+    
+    // Check if it's the new dynamic object format or the old hardcoded format from data.js
+    const fromName = ride.fromName || (WZ_DATA.getLocation(ride.from) ? WZ_DATA.getLocation(ride.from).name : 'Unknown');
+    const toName = ride.toName || (WZ_DATA.getLocation(ride.to) ? WZ_DATA.getLocation(ride.to).name : 'Unknown');
+    
+    const totalPaid = ride.fare + (ride.tip || 0);
+
+    return `
+      <div class="wz-card" style="padding:var(--wz-space-4); display:flex; gap:var(--wz-space-4); animation: fadeInUp 0.4s ease;">
+        <div style="width: 60px; height: 60px; border-radius: var(--wz-radius-lg); background: var(--wz-bg-tertiary); display: flex; align-items: center; justify-content: center; font-size: 24px;">
+          ${ride.type === 'premium' ? '✨' : ride.type === 'xl' ? '🚐' : '🚗'}
+        </div>
+        <div style="flex:1;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:var(--wz-space-2);">
+            <div style="font-weight:600; font-size:var(--wz-text-lg);">${fromName} → ${toName}</div>
+            <div style="font-family:var(--wz-font-display); font-weight:800; color:var(--wz-primary);">$${totalPaid.toFixed(2)}</div>
+          </div>
+          <div style="font-size:var(--wz-text-sm); color:var(--wz-text-muted); margin-bottom:var(--wz-space-3);">
+            ${dateStr} at ${timeStr} · ${driver.name} · ${ride.rating ? '★'.repeat(ride.rating) : 'No rating'}
+          </div>
+          <div style="display:flex; gap:var(--wz-space-2);">
+            <button class="wz-btn wz-btn-secondary" style="padding:var(--wz-space-2) var(--wz-space-3); font-size:var(--wz-text-xs);">🧾 Receipt</button>
+            <button class="wz-btn wz-btn-secondary" style="padding:var(--wz-space-2) var(--wz-space-3); font-size:var(--wz-text-xs);">🆘 Help</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function exportData() {
+  WZ_APP.showToast('Ride history exported to email!', 'success');
+}
+</script>
+</body>
+</html>

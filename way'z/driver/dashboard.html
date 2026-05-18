@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Way'z Admin — Dashboard</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <style>
+    /* Admin Specific Layout */
+    body { background: var(--wz-bg-primary); display: flex; height: 100vh; overflow: hidden; }
+    
+    .wz-admin-sidebar {
+      width: 280px; background: var(--wz-bg-secondary); border-right: 1px solid var(--wz-border);
+      display: flex; flex-direction: column; padding: var(--wz-space-5); z-index: 100;
+    }
+    .wz-admin-sidebar .wz-logo { font-size: 28px; margin-bottom: 4px; }
+    
+    .wz-admin-nav { display: flex; flex-direction: column; gap: var(--wz-space-2); margin-top: var(--wz-space-6); flex: 1; }
+    .wz-admin-nav a {
+      display: flex; align-items: center; gap: var(--wz-space-3); padding: var(--wz-space-3);
+      border-radius: var(--wz-radius-lg); color: var(--wz-text-secondary); font-weight: 600;
+      transition: all 0.2s;
+    }
+    .wz-admin-nav a:hover { background: rgba(255,255,255,0.05); color: var(--wz-text-primary); }
+    .wz-admin-nav a.active { background: var(--wz-gradient-primary); color: white; box-shadow: var(--wz-shadow-glow); }
+    
+    .wz-admin-main { flex: 1; overflow-y: auto; padding: var(--wz-space-6) var(--wz-space-8); }
+    
+    /* Dashboard Cards */
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--wz-space-4); margin-bottom: var(--wz-space-6); }
+    .kpi-card {
+      background: var(--wz-bg-card); border: 1px solid var(--wz-border);
+      padding: var(--wz-space-4); border-radius: var(--wz-radius-xl);
+      display: flex; flex-direction: column; position: relative; overflow: hidden;
+    }
+    .kpi-card .icon {
+      position: absolute; right: -10px; bottom: -10px; font-size: 80px; opacity: 0.05;
+    }
+    
+    .dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: var(--wz-space-6); margin-bottom: var(--wz-space-6); }
+    
+    .panel {
+      background: var(--wz-bg-card); border: 1px solid var(--wz-border);
+      border-radius: var(--wz-radius-xl); padding: var(--wz-space-5);
+    }
+    
+    /* Live Map */
+    #admin-map { width: 100%; height: 350px; border-radius: var(--wz-radius-lg); margin-top: var(--wz-space-4); }
+
+    /* Tables */
+    .admin-table { width: 100%; border-collapse: collapse; margin-top: var(--wz-space-4); }
+    .admin-table th { text-align: left; padding: var(--wz-space-3); color: var(--wz-text-muted); font-size: var(--wz-text-xs); text-transform: uppercase; border-bottom: 1px solid var(--wz-border); }
+    .admin-table td { padding: var(--wz-space-3); border-bottom: 1px solid rgba(255,255,255,0.05); font-size: var(--wz-text-sm); }
+  </style>
+</head>
+<body>
+
+<aside class="wz-admin-sidebar">
+  <div style="text-align:center;">
+    <div class="wz-logo">way'z</div>
+    <div style="font-size:12px; color:var(--wz-text-muted); letter-spacing:2px; text-transform:uppercase;">Command Center</div>
+  </div>
+  
+  <nav class="wz-admin-nav">
+    <a href="dashboard.html" class="active"><span>📊</span> Overview</a>
+    <a href="users.html"><span>👥</span> Riders</a>
+    <a href="drivers.html"><span>🚘</span> Drivers</a>
+    <a href="settings.html"><span>⚙️</span> Platform Settings</a>
+    <div style="flex:1;"></div>
+    <a href="../index.html" style="color:var(--wz-error);"><span>🚪</span> Exit Admin</a>
+  </nav>
+</aside>
+
+<main class="wz-admin-main">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--wz-space-6);">
+    <h1 style="font-family:var(--wz-font-display); font-size:32px;">Platform Overview</h1>
+    <div style="display:flex; gap:var(--wz-space-3); align-items:center;">
+      <div style="width:12px; height:12px; border-radius:50%; background:var(--wz-success); box-shadow:0 0 10px var(--wz-success); animation:pulse 2s infinite;"></div>
+      <span style="font-weight:600; font-size:var(--wz-text-sm);">System Operational</span>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div style="font-size:var(--wz-text-xs); color:var(--wz-text-muted); text-transform:uppercase; font-weight:600;">Total Revenue</div>
+      <div style="font-family:var(--wz-font-display); font-size:32px; font-weight:800; color:var(--wz-success); margin-top:8px;" id="kpi-revenue">$0.00</div>
+      <div style="font-size:var(--wz-text-xs); color:var(--wz-success); margin-top:4px;">↑ 12.5% this week</div>
+      <div class="icon">💰</div>
+    </div>
+    <div class="kpi-card">
+      <div style="font-size:var(--wz-text-xs); color:var(--wz-text-muted); text-transform:uppercase; font-weight:600;">Platform Profit (<span id="kpi-comm-rate">20</span>%)</div>
+      <div style="font-family:var(--wz-font-display); font-size:32px; font-weight:800; color:var(--wz-cyan); margin-top:8px;" id="kpi-profit">$0.00</div>
+      <div style="font-size:var(--wz-text-xs); color:var(--wz-success); margin-top:4px;">↑ 8.2% this week</div>
+      <div class="icon">📈</div>
+    </div>
+    <div class="kpi-card">
+      <div style="font-size:var(--wz-text-xs); color:var(--wz-text-muted); text-transform:uppercase; font-weight:600;">Completed Rides</div>
+      <div style="font-family:var(--wz-font-display); font-size:32px; font-weight:800; margin-top:8px;" id="kpi-rides">0</div>
+      <div style="font-size:var(--wz-text-xs); color:var(--wz-success); margin-top:4px;">↑ 24 today</div>
+      <div class="icon">🗺️</div>
+    </div>
+    <div class="kpi-card">
+      <div style="font-size:var(--wz-text-xs); color:var(--wz-text-muted); text-transform:uppercase; font-weight:600;">Active Drivers</div>
+      <div style="font-family:var(--wz-font-display); font-size:32px; font-weight:800; color:var(--wz-purple-light); margin-top:8px;" id="kpi-drivers">0</div>
+      <div style="font-size:var(--wz-text-xs); color:var(--wz-text-muted); margin-top:4px;">Across Lebanon</div>
+      <div class="icon">🚘</div>
+    </div>
+  </div>
+
+  <div class="dashboard-grid">
+    <div style="display:flex; flex-direction:column; gap:var(--wz-space-6);">
+      
+      <div class="panel">
+        <h3 style="margin-bottom:var(--wz-space-4);">Revenue Analytics</h3>
+        <canvas id="revenueChart" height="250"></canvas>
+      </div>
+
+      <div class="panel">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h3>Live Ride Feed</h3>
+          <button class="wz-btn wz-btn-secondary wz-btn-sm">View All</button>
+        </div>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Rider</th>
+              <th>Driver</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="activity-feed">
+            </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:var(--wz-space-6);">
+      
+      <div class="panel" style="flex:1;">
+        <h3>Live Fleet Tracking</h3>
+        <div style="font-size:var(--wz-text-sm); color:var(--wz-text-muted); margin-bottom:var(--wz-space-2);">Monitoring active drivers</div>
+        <div id="admin-map"></div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const GOOGLE_MAPS_API_KEY = "YOUR_API_KEY_HERE";
+  const WZ_GOOGLE_MAPS_LIBRARIES = "";
+  const wzGoogleMapsScript = document.createElement('script');
+  wzGoogleMapsScript.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}${WZ_GOOGLE_MAPS_LIBRARIES ? '&libraries=' + WZ_GOOGLE_MAPS_LIBRARIES : ''}`;
+  wzGoogleMapsScript.defer = true;
+  document.head.appendChild(wzGoogleMapsScript);
+</script>
+<script src="../js/map.js"></script>
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  calculateKPIs();
+  initChart();
+  initMap();
+  renderActivityFeed();
+});
+
+function calculateKPIs() {
+  const rides = WZ_DATA.rideHistory || [];
+  const commRate = WZ_DATA.platformConfig.commissionRate;
+  
+  let totalRevenue = 0;
+  rides.forEach(r => totalRevenue += r.fare);
+  
+  const platformProfit = totalRevenue * (commRate / 100);
+  const activeDrivers = WZ_DATA.drivers.filter(d => d.online).length;
+
+  document.getElementById('kpi-revenue').textContent = '$' + totalRevenue.toFixed(2);
+  document.getElementById('kpi-profit').textContent = '$' + platformProfit.toFixed(2);
+  document.getElementById('kpi-rides').textContent = rides.length;
+  document.getElementById('kpi-drivers').textContent = activeDrivers;
+  document.getElementById('kpi-comm-rate').textContent = commRate;
+}
+
+function initChart() {
+  const ctx = document.getElementById('revenueChart').getContext('2d');
+  
+  // Generating mock smooth curve data for the admin chart
+  const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const dataPoints = [420, 580, 510, 690, 850, 1100, 950];
+
+  const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+  gradient.addColorStop(0, 'rgba(123, 47, 242, 0.4)');
+  gradient.addColorStop(1, 'rgba(123, 47, 242, 0.0)');
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Gross Volume ($)',
+        data: dataPoints,
+        borderColor: '#7B2FF2',
+        backgroundColor: gradient,
+        borderWidth: 3,
+        pointBackgroundColor: '#00D4FF',
+        pointBorderColor: '#fff',
+        pointRadius: 4,
+        fill: true,
+        tension: 0.4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#6B6B8D' } },
+        x: { grid: { display: false }, ticks: { color: '#6B6B8D' } }
+      }
+    }
+  });
+}
+
+function initMap() {
+  // Center roughly on Beirut
+  const map = WZ_MAP.create('admin-map', { center: { lat: 33.89, lng: 35.50 }, zoom: 12 });
+  
+  // Plot all drivers dynamically from database
+  WZ_DATA.drivers.forEach(driver => {
+    if(driver.online) {
+      // Add slight random offset to prevent overlap if testing locally
+      const lat = driver.lat + (Math.random() - 0.5) * 0.02;
+      const lng = driver.lng + (Math.random() - 0.5) * 0.02;
+      
+      const emoji = driver.type === 'premium' ? '✨' : driver.type === 'xl' ? '🚐' : '🚗';
+      WZ_MAP.addEmojiMarker(map, { lat, lng }, emoji, 30);
+    }
+  });
+}
+
+function renderActivityFeed() {
+  const tbody = document.getElementById('activity-feed');
+  const recentRides = WZ_DATA.rideHistory.slice(0, 6); // Last 6 rides
+
+  if(recentRides.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--wz-text-muted);">No recent activity</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = recentRides.map(ride => {
+    const rider = WZ_DATA.riders.find(r => r.id === ride.riderId) || { name: 'Unknown' };
+    const driver = WZ_DATA.drivers.find(d => d.id === ride.driverId) || { name: 'Unknown' };
+    const statusColor = ride.status === 'completed' ? 'var(--wz-success)' : 'var(--wz-warning)';
+    
+    return `
+      <tr>
+        <td style="color:var(--wz-text-muted);">#${ride.id.split('_')[1] || '1029'}</td>
+        <td style="font-weight:600;">${rider.name}</td>
+        <td>${driver.name}</td>
+        <td style="font-family:var(--wz-font-display); font-weight:800;">$${ride.fare.toFixed(2)}</td>
+        <td><span style="color:${statusColor}; font-size:12px; text-transform:uppercase; font-weight:700;">${ride.status}</span></td>
+      </tr>
+    `;
+  }).join('');
+}
+</script>
+</body>
+</html>

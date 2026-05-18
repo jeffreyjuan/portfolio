@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Way'z — Lebanon's Premium Ride Platform</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0a0a0f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Way'z">
+  <meta name="description" content="Way'z is Lebanon's next-generation ride-hailing platform. Book safe, fast, and affordable rides across Beirut and all of Lebanon.">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="wz-navbar" id="navbar">
+  <div class="wz-container wz-navbar-inner">
+    <a href="index.html" class="wz-logo"><span>way'z</span></a>
+    <div class="wz-nav-links" id="navLinks">
+      <a href="#how-it-works">How It Works</a>
+      <a href="#features">Features</a>
+      <a href="#coverage">Coverage</a>
+      <a href="#drive">Drive</a>
+    </div>
+    <div class="wz-nav-cta">
+      <a href="rider/login.html" class="wz-btn wz-btn-ghost wz-hide-mobile-nav">Log In</a>
+      <a href="rider/login.html" class="wz-btn wz-btn-primary magnetic">Get Started</a>
+      <div class="wz-menu-toggle" id="menuToggle" onclick="document.getElementById('navLinks').classList.toggle('open');this.classList.toggle('active')">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="wz-hero" id="hero">
+  <div class="wz-hero-bg">
+    <canvas id="hero-canvas"></canvas>
+  </div>
+  <div class="wz-hero-overlay"></div>
+
+  <div class="wz-floating-elements">
+    <div class="wz-floating-el el-1">🛡️ Safe rides</div>
+    <div class="wz-floating-el el-2">⚡ 3 min avg pickup</div>
+    <div class="wz-floating-el el-3">💳 Easy payment</div>
+    <div class="wz-floating-el el-4">⭐ 4.9 avg rating</div>
+  </div>
+
+  <div class="wz-hero-content">
+    <div class="wz-hero-badge"><span class="dot"></span> Now live in Lebanon</div>
+    <h1>
+      <span class="line">Your ride,</span>
+      <span class="line">your <span class="highlight">way'z</span></span>
+    </h1>
+    <p>Lebanon's smartest ride-hailing platform. Safe, fast, and affordable rides from Beirut to Baalbek — at your fingertips.</p>
+    <div class="wz-hero-actions">
+      <a href="rider/login.html" class="wz-btn wz-btn-primary wz-btn-lg magnetic">Book a Ride</a>
+      <a href="driver/login.html" class="wz-btn wz-btn-secondary wz-btn-lg magnetic">Become a Driver</a>
+    </div>
+    <div class="wz-hero-stats">
+      <div class="wz-hero-stat">
+        <div class="number" data-count="12450">0</div>
+        <div class="label">Riders</div>
+      </div>
+      <div class="wz-hero-stat">
+        <div class="number" data-count="1830">0</div>
+        <div class="label">Drivers</div>
+      </div>
+      <div class="wz-hero-stat">
+        <div class="number" data-count="284500">0</div>
+        <div class="label">Trips Completed</div>
+      </div>
+      <div class="wz-hero-stat">
+        <div class="number" data-count="15">0</div>
+        <div class="label">Cities</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section class="wz-section" id="how-it-works" style="position:relative;">
+  <div class="wz-bg-orb purple" style="width:400px;height:400px;top:-100px;left:-200px;"></div>
+  <div class="wz-container">
+    <div class="wz-section-header">
+      <p class="overline">Simple & Fast</p>
+      <h2>How <span class="wz-text-gradient">Way'z</span> Works</h2>
+      <p>Get moving in 3 easy steps. From tap to ride in under 3 minutes.</p>
+    </div>
+    <div class="wz-steps">
+      <div class="wz-step">
+        <div class="wz-step-icon">📍<span class="wz-step-number">1</span></div>
+        <h3>Set Your Destination</h3>
+        <p>Enter your pickup and drop-off location. Get instant fare estimates for all vehicle types.</p>
+      </div>
+      <div class="wz-step">
+        <div class="wz-step-icon">🚗<span class="wz-step-number">2</span></div>
+        <h3>Match with a Driver</h3>
+        <p>We'll connect you with the nearest available driver. Track their arrival in real-time on the map.</p>
+      </div>
+      <div class="wz-step">
+        <div class="wz-step-icon">🎉<span class="wz-step-number">3</span></div>
+        <h3>Enjoy Your Ride</h3>
+        <p>Sit back, relax, and enjoy. Rate your driver and share your experience after arrival.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="wz-section" id="features" style="position:relative;">
+  <div class="wz-bg-orb cyan" style="width:350px;height:350px;bottom:-100px;right:-150px;"></div>
+  <div class="wz-container">
+    <div class="wz-section-header">
+      <p class="overline">Why Choose Us</p>
+      <h2>Built for <span class="wz-text-gradient">Lebanon</span></h2>
+      <p>Designed from the ground up to serve the unique needs of Lebanese riders and drivers.</p>
+    </div>
+    <div class="wz-features-grid">
+      <div class="wz-feature-card">
+        <div class="wz-feature-icon">🛡️</div>
+        <h3>Safety First</h3>
+        <p>Real-time trip sharing, SOS button, verified drivers, and 24/7 support to keep you safe.</p>
+      </div>
+      <div class="wz-feature-card">
+        <div class="wz-feature-icon">💰</div>
+        <h3>Transparent Pricing</h3>
+        <p>No surge surprises. See your fare estimate upfront before you book. Pay with Whish Wallet.</p>
+      </div>
+      <div class="wz-feature-card">
+        <div class="wz-feature-icon">⚡</div>
+        <h3>Lightning Fast</h3>
+        <p>Average pickup time under 3 minutes in Beirut. Our smart algorithm finds you the closest driver.</p>
+      </div>
+      <div class="wz-feature-card">
+        <div class="wz-feature-icon">🗺️</div>
+        <h3>All of Lebanon</h3>
+        <p>From Tripoli to Tyre, Baalbek to Byblos. We cover 15+ cities across the entire country.</p>
+      </div>
+      <div class="wz-feature-card">
+        <div class="wz-feature-icon">🚙</div>
+        <h3>Multiple Vehicle Types</h3>
+        <p>Economy, Comfort, Premium, or XL — choose the ride that fits your style and budget.</p>
+      </div>
+      <div class="wz-feature-card">
+        <div class="wz-feature-icon">⭐</div>
+        <h3>Rated & Reviewed</h3>
+        <p>Two-way rating system ensures quality. Our drivers maintain a 4.8+ average rating.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- City Coverage -->
+<section class="wz-section wz-coverage" id="coverage" style="position:relative;">
+  <div class="wz-bg-orb purple" style="width:300px;height:300px;top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+  <div class="wz-container">
+    <div class="wz-section-header">
+      <p class="overline">Nationwide Coverage</p>
+      <h2>Wherever You <span class="wz-text-gradient">Go</span></h2>
+      <p>Way'z covers major cities and routes across Lebanon.</p>
+    </div>
+    <div class="wz-map-wrapper reveal-scale">
+      <div id="coverage-map"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Drive With Us -->
+<section class="wz-section" id="drive" style="position:relative;">
+  <div class="wz-bg-orb cyan" style="width:400px;height:400px;top:-150px;right:-200px;"></div>
+  <div class="wz-container">
+    <div class="wz-driver-cta">
+      <div class="wz-driver-cta-content">
+        <p class="overline" style="font-size:var(--wz-text-xs);text-transform:uppercase;letter-spacing:0.2em;color:var(--wz-purple-light);font-weight:600;margin-bottom:var(--wz-space-3);">Drive & Earn</p>
+        <h2>Turn your car into a <span class="wz-text-gradient">money machine</span></h2>
+        <p>Join thousands of drivers earning flexible income on their own schedule. Be your own boss with Way'z.</p>
+        <div class="wz-driver-perks">
+          <div class="wz-perk"><div class="wz-perk-icon">💵</div><span>Keep 85% of every fare</span></div>
+          <div class="wz-perk"><div class="wz-perk-icon">🕐</div><span>Drive whenever you want</span></div>
+          <div class="wz-perk"><div class="wz-perk-icon">📊</div><span>Weekly payouts to your account</span></div>
+          <div class="wz-perk"><div class="wz-perk-icon">🎯</div><span>Bonus incentives & surge pricing</span></div>
+        </div>
+        <a href="driver/login.html" class="wz-btn wz-btn-primary wz-btn-lg magnetic">Start Driving</a>
+      </div>
+      <div class="wz-driver-cta-visual">
+        <div class="wz-earnings-card">
+          <h3>This week's earnings</h3>
+          <div class="wz-earnings-amount wz-text-gradient">$520.00</div>
+          <div class="wz-earnings-bars">
+            <div class="wz-earnings-bar" data-height="45%"></div>
+            <div class="wz-earnings-bar" data-height="70%"></div>
+            <div class="wz-earnings-bar" data-height="55%"></div>
+            <div class="wz-earnings-bar" data-height="85%"></div>
+            <div class="wz-earnings-bar" data-height="60%"></div>
+            <div class="wz-earnings-bar" data-height="92%"></div>
+            <div class="wz-earnings-bar" data-height="78%"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:var(--wz-space-3);font-size:var(--wz-text-xs);color:var(--wz-text-muted);">
+            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="wz-section" style="position:relative;">
+  <div class="wz-container">
+    <div class="wz-section-header">
+      <p class="overline">Reviews</p>
+      <h2>What riders <span class="wz-text-gradient">say</span></h2>
+    </div>
+    <div class="wz-testimonials-track">
+      <div class="wz-testimonial">
+        <div class="wz-testimonial-stars">★★★★★</div>
+        <p>"Way'z changed how I commute in Beirut. The drivers are professional and the app is so smooth. I use it every single day!"</p>
+        <div class="wz-testimonial-author">
+          <div class="wz-avatar" style="width:40px;height:40px;font-size:0.8rem;">NK</div>
+          <div><div class="name">Nadia Khoury</div><div class="role">Daily commuter, Achrafieh</div></div>
+        </div>
+      </div>
+      <div class="wz-testimonial">
+        <div class="wz-testimonial-stars">★★★★★</div>
+        <p>"Best ride service in Lebanon, hands down. Fair pricing, quick pickups, and I always feel safe. Highly recommend the Premium option!"</p>
+        <div class="wz-testimonial-author">
+          <div class="wz-avatar" style="width:40px;height:40px;font-size:0.8rem;">RM</div>
+          <div><div class="name">Rami Makhlouf</div><div class="role">Business traveler, Downtown</div></div>
+        </div>
+      </div>
+      <div class="wz-testimonial">
+        <div class="wz-testimonial-stars">★★★★★</div>
+        <p>"As a student at AUB, Way'z Economy is a lifesaver. Super affordable and the drivers are always friendly. Love the real-time tracking!"</p>
+        <div class="wz-testimonial-author">
+          <div class="wz-avatar" style="width:40px;height:40px;font-size:0.8rem;">LH</div>
+          <div><div class="name">Lara Haddad</div><div class="role">Student, Hamra</div></div>
+        </div>
+      </div>
+      <div class="wz-testimonial">
+        <div class="wz-testimonial-stars">★★★★★</div>
+        <p>"I use Way'z for airport transfers every time. The Premium cars are spotless and drivers help with luggage. Worth every dollar."</p>
+        <div class="wz-testimonial-author">
+          <div class="wz-avatar" style="width:40px;height:40px;font-size:0.8rem;">TJ</div>
+          <div><div class="name">Tony Jabbour</div><div class="role">Frequent flyer, Jounieh</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- App Download -->
+<section class="wz-section" style="position:relative;">
+  <div class="wz-bg-orb purple" style="width:500px;height:500px;top:50%;left:-250px;"></div>
+  <div class="wz-container">
+    <div class="wz-app-section">
+      <div>
+        <p class="overline" style="font-size:var(--wz-text-xs);text-transform:uppercase;letter-spacing:0.2em;color:var(--wz-purple-light);font-weight:600;margin-bottom:var(--wz-space-3);">Get the App</p>
+        <h2 style="font-size:var(--wz-text-4xl);margin-bottom:var(--wz-space-4);">Download <span class="wz-text-gradient">Way'z</span></h2>
+        <p style="color:var(--wz-text-secondary);line-height:1.7;margin-bottom:var(--wz-space-4);">Get the full experience on your phone. Book rides, track drivers, save places, and manage payments — all from the app.</p>
+        <div class="wz-app-stores">
+          <div class="wz-store-btn">
+            <span class="store-icon">🍎</span>
+            <div class="store-text"><div class="small">Download on the</div><div class="big">App Store</div></div>
+          </div>
+          <div class="wz-store-btn">
+            <span class="store-icon">▶️</span>
+            <div class="store-text"><div class="small">Get it on</div><div class="big">Google Play</div></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="wz-phone-mockup anim-float-slow">
+          <div class="wz-phone-notch"></div>
+          <div class="wz-phone-screen">
+            <div class="mini-map"></div>
+            <div class="mini-input">📍 Where to?</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="wz-footer">
+  <div class="wz-container">
+    <div class="wz-footer-grid">
+      <div class="wz-footer-brand">
+        <div class="wz-logo" style="font-size:var(--wz-text-3xl);"><span>way'z</span></div>
+        <p>Lebanon's premium ride-hailing platform. Safe, fast, and affordable rides across the entire country.</p>
+        <div class="wz-lebanon-flag" style="margin-top:var(--wz-space-4);font-size:var(--wz-text-sm);color:var(--wz-text-muted);">
+          <span class="flag">🇱🇧</span> Made in Lebanon
+        </div>
+      </div>
+      <div>
+        <h4>Ride</h4>
+        <ul>
+          <li><a href="rider/login.html">Book a Ride</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#coverage">Cities</a></li>
+          <li><a href="#">Safety</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Drive</h4>
+        <ul>
+          <li><a href="driver/login.html">Become a Driver</a></li>
+          <li><a href="#">Requirements</a></li>
+          <li><a href="#">Earnings</a></li>
+          <li><a href="#">Support</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wz-footer-bottom">
+      <span>© 2026 Way'z. All rights reserved.</span>
+      <div class="wz-footer-social">
+        <a href="#" title="Instagram">📸</a>
+        <a href="#" title="Twitter">🐦</a>
+        <a href="#" title="Facebook">📘</a>
+        <a href="#" title="LinkedIn">💼</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+  const GOOGLE_MAPS_API_KEY = "YOUR_API_KEY_HERE";
+  const WZ_GOOGLE_MAPS_LIBRARIES = "places";
+  const wzGoogleMapsScript = document.createElement('script');
+  wzGoogleMapsScript.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=${WZ_GOOGLE_MAPS_LIBRARIES}`;
+  wzGoogleMapsScript.defer = true;
+  document.head.appendChild(wzGoogleMapsScript);
+</script>
+<script src="js/map.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/three-scene.js"></script>
+<script src="js/animations.js"></script>
+
+<script>
+// Initialize coverage map
+document.addEventListener('DOMContentLoaded', () => {
+  const mapEl = document.getElementById('coverage-map');
+  if (mapEl && typeof google !== 'undefined') {
+    const map = WZ_MAP.create('coverage-map', {
+      center: { lat: 33.88, lng: 35.6 },
+      zoom: 8,
+      gestureHandling: 'cooperative',
+      zoomControl: false,
+    });
+  }
+});
+</script>
+
+</body>
+</html>

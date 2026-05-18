@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Way'z — Settings</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/rider.css">
+</head>
+<body>
+<div class="wz-page-layout">
+  <header class="wz-rider-header">
+    <a href="../index.html" class="wz-logo"><span>way'z</span></a>
+    <nav class="wz-rider-nav">
+      <a href="dashboard.html">🗺️ <span class="wz-hide-mobile">Book</span></a>
+      <a href="history.html">🕐 <span class="wz-hide-mobile">History</span></a>
+      <a href="profile.html">👤 <span class="wz-hide-mobile">Profile</span></a>
+      <a href="settings.html" class="active">⚙️ <span class="wz-hide-mobile">Settings</span></a>
+    </nav>
+  </header>
+
+  <div class="wz-page-content">
+    <h1 class="wz-page-title anim-fade-in-up">Settings</h1>
+    <p class="anim-fade-in-up" style="color:var(--wz-text-secondary);margin-bottom:var(--wz-space-6);max-width:700px;">
+      Control your Way'z experience from one page. Choose light or dark mode, pay with Whish Wallet, and book rides to anywhere in the world.
+    </p>
+
+    <div class="wz-settings-group anim-fade-in-up">
+      <h3>Theme</h3>
+      <div style="display:flex;align-items:center;gap:var(--wz-space-4);">
+        <span style="font-size:var(--wz-text-sm);color:var(--wz-text-secondary);">Light</span>
+        <label class="wz-toggle">
+          <input type="checkbox" id="theme-toggle">
+          <span class="wz-toggle-track"></span>
+          <span class="wz-toggle-thumb"></span>
+        </label>
+        <span style="font-size:var(--wz-text-sm);color:var(--wz-text-secondary);">Dark</span>
+      </div>
+    </div>
+
+    <div class="wz-settings-group anim-fade-in-up" style="animation-delay:0.1s;">
+      <h3>Payment</h3>
+      <div class="wz-settings-item">
+        <div class="left"><div class="icon">💳</div><span>Whish Wallet</span></div>
+        <span class="wz-badge wz-badge-success">Default</span>
+      </div>
+      <div class="wz-settings-item" onclick="WZ_APP.showToast('Whish Wallet management coming soon','info')">
+        <div class="left"><div class="icon">🪙</div><span>Manage Whish Wallet</span></div>
+        <span class="chevron">›</span>
+      </div>
+    </div>
+
+    <div class="wz-settings-group anim-fade-in-up" style="animation-delay:0.2s;">
+      <h3>Travel</h3>
+      <div class="wz-settings-item">
+        <div class="left"><div class="icon">🌍</div><span>Global access</span></div>
+        <span class="wz-badge wz-badge-success">Enabled</span>
+      </div>
+      <div class="wz-settings-item" onclick="WZ_APP.showToast('Type any pickup or destination and press Enter to book','info')">
+        <div class="left"><div class="icon">📍</div><span>Exact destination support</span></div>
+        <span class="chevron">›</span>
+      </div>
+    </div>
+
+    <button class="wz-btn wz-btn-secondary" style="width:100%;margin-top:var(--wz-space-4);color:var(--wz-error);border-color:rgba(255,82,82,0.3);" onclick="WZ_APP.logout()">
+      Sign Out
+    </button>
+  </div>
+</div>
+
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script>
+function updateThemeToggle() {
+  const current = localStorage.getItem('wz_theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  const toggle = document.getElementById('theme-toggle');
+  if (toggle) toggle.checked = current === 'light';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  updateThemeToggle();
+  document.getElementById('theme-toggle').addEventListener('change', (e) => {
+    WZ_APP.setTheme(e.target.checked ? 'light' : 'dark');
+    updateThemeToggle();
+  });
+});
+</script>
+</body>
+</html>

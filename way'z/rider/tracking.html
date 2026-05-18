@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Way'z — Trip In Progress</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/rider.css">
+  <style>
+    #tracking-map { width:100%;height:100%; }
+    .tracking-panel { position:absolute;bottom:0;left:0;right:0;z-index:500;padding:var(--wz-space-4); }
+    .tracking-inner { max-width:550px;margin:0 auto;border-radius:var(--wz-radius-xl);padding:var(--wz-space-5); }
+    .share-btn, .sos-btn { padding:var(--wz-space-2) var(--wz-space-3);font-size:var(--wz-text-xs);border-radius:var(--wz-radius-full); }
+    
+    /* Chat Modal */
+    #chat-messages::-webkit-scrollbar { width: 6px; }
+    #chat-messages::-webkit-scrollbar-track { background: transparent; }
+    #chat-messages::-webkit-scrollbar-thumb { background: var(--wz-border-active); border-radius: 4px; }
+    .chat-msg { animation: fadeInUp 0.3s ease; }
+    .wz-modal-close-btn { width: 32px; height: 32px; border-radius: 50%; background: var(--wz-bg-primary); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--wz-text-muted); transition: all 0.2s; border: 1px solid var(--wz-border); }
+    
+    /* Payment & Review Modal */
+    .wz-star-rating { display: flex; gap: var(--wz-space-2); justify-content: center; font-size: 36px; color: var(--wz-border); cursor: pointer; margin: var(--wz-space-4) 0; }
+    .wz-star-rating span { transition: color 0.2s; }
+    .wz-star-rating span.active, .wz-star-rating span:hover, .wz-star-rating span:hover ~ span { color: #FFD700; /* Gold */ }
+    /* Fix hover direction logic for stars */
+    .wz-star-rating { flex-direction: row; }
+    
+    .tip-options { display: flex; gap: var(--wz-space-2); justify-content: center; margin-bottom: var(--wz-space-4); }
+    .tip-btn { flex: 1; padding: var(--wz-space-2); border: 1px solid var(--wz-border); background: var(--wz-bg-secondary); color: var(--wz-text-primary); border-radius: var(--wz-radius-lg); cursor: pointer; transition: all 0.2s; font-weight: 600; }
+    .tip-btn.active { background: var(--wz-gradient-primary); color: white; border-color: transparent; }
+  </style>
+</head>
+<body>
+<div class="wz-rider-app">
+  <header class="wz-rider-header" style="position:absolute;top:0;left:0;right:0;z-index:600;background:rgba(10,10,15,0.85);backdrop-filter:blur(10px);">
+    <a href="dashboard.html" class="wz-logo" style="font-size:var(--wz-text-base);">← Cancel</a>
+    <div style="display:flex;gap:var(--wz-space-2);">
+      <button class="wz-btn wz-btn-secondary share-btn" onclick="WZ_APP.showToast('Trip link copied!','success')">📤 Share</button>
+      <button class="wz-btn sos-btn" style="background:rgba(255,82,82,0.15);color:var(--wz-error);border:1px solid rgba(255,82,82,0.3);" onclick="WZ_APP.showToast('Emergency services contacted','error')">🆘 SOS</button>
+    </div>
+  </header>
+  
+  <div class="wz-map-area">
+    <div id="tracking-map"></div>
+    <div class="tracking-panel">
+      <div class="tracking-inner wz-glass">
+        <div style="display:flex;align-items:center;gap:var(--wz-space-3);margin-bottom:var(--wz-space-4);">
+          <div class="wz-avatar wz-avatar-lg" id="drv-avatar">HF</div>
+          <div style="flex:1;">
+            <div style="font-weight:600;" id="drv-name">Hassan Fawaz</div>
+            <div style="font-size:var(--wz-text-xs);color:var(--wz-text-muted);" id="drv-car">★ 4.9 · Silver Toyota Corolla</div>
+          </div>
+          <div style="display:flex;gap:var(--wz-space-2);">
+            <button class="wz-btn wz-btn-secondary" style="padding:var(--wz-space-2);width:36px;height:36px;" onclick="WZ_APP.showToast('Calling...','info')">📞</button>
+            <button class="wz-btn wz-btn-secondary" style="padding:var(--wz-space-2);width:36px;height:36px;" onclick="toggleChat()">💬</button>
+          </div>
+        </div>
+        <div class="wz-trip-progress" style="margin-bottom:var(--wz-space-4);">
+          <div class="wz-trip-progress-bar"><div class="wz-trip-progress-fill" id="trip-progress" style="width:10%"></div></div>
+          <div class="wz-trip-labels"><span id="pickup-label">Pickup</span><span id="eta-text">Calc...</span><span id="dest-label">Destination</span></div>
+        </div>
+        <div style="display:flex;justify-content:space-around;text-align:center;">
+          <div><div style="font-family:var(--wz-font-display);font-size:var(--wz-text-xl);font-weight:800;" id="track-dist">-- km</div><div style="font-size:var(--wz-text-xs);color:var(--wz-text-muted);">Remaining</div></div>
+          <div><div style="font-family:var(--wz-font-display);font-size:var(--wz-text-xl);font-weight:800;" id="track-time">-- min</div><div style="font-size:var(--wz-text-xs);color:var(--wz-text-muted);">ETA</div></div>
+          <div><div style="font-family:var(--wz-font-display);font-size:var(--wz-text-xl);font-weight:800;" id="track-fare">$0.00</div><div style="font-size:var(--wz-text-xs);color:var(--wz-text-muted);">Fare</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="chat-modal" class="wz-modal-overlay" style="z-index: var(--wz-z-max);">
+  <div class="wz-modal" style="height: 60vh; display: flex; flex-direction: column; padding: 0; background: var(--wz-bg-secondary);">
+    <div class="wz-modal-header" style="padding: var(--wz-space-4); border-bottom: 1px solid var(--wz-border); background: var(--wz-bg-tertiary); display: flex; align-items: center; justify-content: space-between;">
+      <div style="font-weight:600;">Message Driver</div>
+      <div class="wz-modal-close-btn" onclick="toggleChat()">✕</div>
+    </div>
+    <div id="chat-messages" style="flex: 1; overflow-y: auto; padding: var(--wz-space-4); display: flex; flex-direction: column; gap: var(--wz-space-3);"></div>
+    <div style="padding: var(--wz-space-4); border-top: 1px solid var(--wz-border); display: flex; gap: var(--wz-space-3);">
+      <input type="text" id="chat-input" class="wz-input" placeholder="Type..." onkeypress="if(event.key === 'Enter') sendMessage()" style="border-radius: var(--wz-radius-full);">
+      <button class="wz-btn wz-btn-primary" style="border-radius: var(--wz-radius-full); width: 44px; height: 44px;" onclick="sendMessage()">➤</button>
+    </div>
+  </div>
+</div>
+
+<div id="payment-modal" class="wz-modal-overlay" style="z-index: 9999;">
+  <div class="wz-modal" style="text-align: center; max-width: 400px;">
+    <h2 style="font-family: var(--wz-font-display); margin-bottom: var(--wz-space-2);">You've Arrived!</h2>
+    <p style="color: var(--wz-text-muted); font-size: var(--wz-text-sm); margin-bottom: var(--wz-space-4);">How was your ride with Hassan?</p>
+    
+    <div class="wz-avatar wz-avatar-lg" style="margin: 0 auto var(--wz-space-4); width: 64px; height: 64px; font-size: 24px;">HF</div>
+    
+    <div style="background: var(--wz-bg-tertiary); padding: var(--wz-space-4); border-radius: var(--wz-radius-xl); margin-bottom: var(--wz-space-4);">
+      <div style="font-size: var(--wz-text-sm); color: var(--wz-text-muted);">Total Fare</div>
+      <div style="font-family: var(--wz-font-display); font-size: 36px; font-weight: 800; color: var(--wz-text-primary);" id="final-total-display">$0.00</div>
+    </div>
+
+    <div style="text-align: left; font-size: var(--wz-text-sm); font-weight: 600; margin-bottom: var(--wz-space-2);">Add a tip</div>
+    <div class="tip-options">
+      <button class="tip-btn" onclick="setTip(0, this)">None</button>
+      <button class="tip-btn" onclick="setTip(10, this)">10%</button>
+      <button class="tip-btn active" onclick="setTip(15, this)">15%</button>
+      <button class="tip-btn" onclick="setTip(20, this)">20%</button>
+    </div>
+
+    <div style="text-align: left; font-size: var(--wz-text-sm); font-weight: 600; margin-bottom: var(--wz-space-2);">Rate your driver</div>
+    <div class="wz-star-rating" id="star-rating">
+      <span onclick="setRating(1)">★</span>
+      <span onclick="setRating(2)">★</span>
+      <span onclick="setRating(3)">★</span>
+      <span onclick="setRating(4)">★</span>
+      <span class="active" onclick="setRating(5)">★</span>
+    </div>
+
+    <textarea class="wz-input" placeholder="Leave a compliment or feedback (optional)" style="min-height: 80px; margin-bottom: var(--wz-space-4); resize: none;"></textarea>
+
+    <button class="wz-btn wz-btn-primary" style="width: 100%;" onclick="submitPayment()">Pay & Complete Ride</button>
+  </div>
+</div>
+
+<script>
+  const GOOGLE_MAPS_API_KEY = "YOUR_API_KEY_HERE";
+  const WZ_GOOGLE_MAPS_LIBRARIES = "places";
+  const wzGoogleMapsScript = document.createElement('script');
+  wzGoogleMapsScript.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=${WZ_GOOGLE_MAPS_LIBRARIES}`;
+  wzGoogleMapsScript.defer = true;
+  document.head.appendChild(wzGoogleMapsScript);
+</script>
+<script src="../js/map.js"></script>
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script>
+// Trip State Variables
+let tripFare = 0;
+let tipAmount = 0;
+let currentRating = 5;
+let activeTripData = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize wallet if missing
+  if (!WZ_DATA.riders[0].wallet) {
+    WZ_DATA.riders[0].wallet = { balance: 0, transactions: [] };
+    WZ_DATA.save();
+  }
+
+  const pickup = WZ_DATA.locations[WZ_DATA.locations.length - 2] || WZ_DATA.getLocation('l2');
+  const dest = WZ_DATA.locations[WZ_DATA.locations.length - 1] || WZ_DATA.getLocation('l6');
+  
+  const distKm = WZ_DATA.getDistance(pickup.lat, pickup.lng, dest.lat, dest.lng);
+  const estMin = Math.max(2, Math.round(distKm * 3.5));
+  tripFare = WZ_DATA.calculateFare(distKm, estMin, 'economy');
+  
+  document.getElementById('pickup-label').textContent = pickup.name;
+  document.getElementById('dest-label').textContent = dest.name;
+  document.getElementById('track-fare').textContent = '$' + tripFare.toFixed(2);
+  
+  const midPt = { lat: (pickup.lat + dest.lat) / 2, lng: (pickup.lng + dest.lng) / 2 };
+  const map = WZ_MAP.create('tracking-map', { center: midPt, zoom: 14 });
+  WZ_MAP.addMarker(map, { lat: dest.lat, lng: dest.lng }, 'destination');
+  const driverMarker = WZ_MAP.addEmojiMarker(map, { lat: pickup.lat, lng: pickup.lng }, '🚗', 40);
+
+  const directionsService = new google.maps.DirectionsService();
+  directionsService.route({
+    origin: { lat: pickup.lat, lng: pickup.lng },
+    destination: { lat: dest.lat, lng: dest.lng },
+    travelMode: google.maps.TravelMode.DRIVING,
+  }, (result, status) => {
+    if (status !== 'OK') return;
+    const path = result.routes[0].overview_path;
+    const routePolyline = new google.maps.Polyline({
+      path: path, strokeColor: '#7B2FF2', strokeWeight: 5, strokeOpacity: 0.9, map: map
+    });
+
+    const totalSteps = path.length;
+    let stepIdx = 0;
+
+    const navInterval = setInterval(() => {
+      if (stepIdx < totalSteps - 1) {
+        stepIdx = Math.min(stepIdx + Math.ceil(totalSteps / 12), totalSteps - 1); 
+        driverMarker.setPosition(path[stepIdx]);
+        routePolyline.setPath(path.slice(stepIdx));
+
+        const progress = Math.round((stepIdx / totalSteps) * 100);
+        document.getElementById('trip-progress').style.width = Math.min(progress, 100) + '%';
+        
+        const remaining = Math.max(0, distKm * (1 - progress / 100));
+        const eta = Math.max(0, Math.round(estMin * (1 - progress / 100)));
+        
+        document.getElementById('track-dist').textContent = remaining.toFixed(1) + ' km';
+        document.getElementById('track-time').textContent = eta + ' min';
+        document.getElementById('eta-text').textContent = eta + ' min';
+        
+        if (progress >= 98) {
+          clearInterval(navInterval);
+          document.getElementById('eta-text').textContent = 'Arrived!';
+          WZ_APP.showToast("You've arrived at your destination!", 'success');
+          
+          activeTripData = { from: pickup.name, to: dest.name, distance: distKm, duration: estMin };
+          
+          setTimeout(() => {
+            document.getElementById('payment-modal').classList.add('active');
+            setTip(15, document.querySelectorAll('.tip-btn')[2]); 
+          }, 1500);
+        }
+      }
+    }, 1000);
+  });
+});
+
+function toggleChat() { document.getElementById('chat-modal').classList.toggle('active'); }
+function sendMessage() {
+  const input = document.getElementById('chat-input');
+  if (!input.value.trim()) return;
+  const msgs = document.getElementById('chat-messages');
+  msgs.innerHTML += `<div class="chat-msg rider" style="align-self:flex-end;background:var(--wz-gradient-primary);color:white;padding:10px 15px;border-radius:15px 15px 0 15px;max-width:80%;">${input.value}</div>`;
+  input.value = '';
+  setTimeout(() => {
+    msgs.innerHTML += `<div class="chat-msg driver" style="align-self:flex-start;background:var(--wz-bg-card);padding:10px 15px;border-radius:15px 15px 15px 0;max-width:80%;border:1px solid var(--wz-border);">Okay, got it!</div>`;
+  }, 1500);
+}
+
+function setTip(percent, btnEl) {
+  document.querySelectorAll('.tip-btn').forEach(b => b.classList.remove('active'));
+  btnEl.classList.add('active');
+  tipAmount = tripFare * (percent / 100);
+  const total = tripFare + tipAmount;
+  document.getElementById('final-total-display').textContent = '$' + total.toFixed(2);
+}
+
+function setRating(val) {
+  currentRating = val;
+  const stars = document.getElementById('star-rating').children;
+  for(let i=0; i<5; i++) {
+    if(i < val) stars[i].classList.add('active');
+    else stars[i].classList.remove('active');
+  }
+}
+
+// 💥 UPDATED WALLET DEDUCTION LOGIC 💥
+function submitPayment() {
+  const total = tripFare + tipAmount;
+  const rider = WZ_DATA.riders[0];
+
+  // 1. Check if user has enough Whish Wallet balance
+  if (rider.wallet.balance < total) {
+    WZ_APP.showToast(`Insufficient balance. You need $${(total - rider.wallet.balance).toFixed(2)} more. Redirecting to Wallet...`, 'error');
+    setTimeout(() => {
+      window.location.href = 'wallet.html'; // Force them to top up!
+    }, 2000);
+    return;
+  }
+
+  // 2. Deduct from wallet and log transaction
+  rider.wallet.balance -= total;
+  rider.wallet.transactions.unshift({
+    id: 'tx_' + Date.now(),
+    type: 'ride',
+    title: `Ride: ${activeTripData.from} → ${activeTripData.to}`,
+    amount: total,
+    date: new Date().toISOString()
+  });
+
+  // 3. Create history record
+  WZ_DATA.rideHistory.unshift({
+    id: 'ride_' + Date.now(),
+    riderId: 'r1',
+    driverId: 'd1', 
+    fromName: activeTripData.from,
+    toName: activeTripData.to,
+    type: 'economy',
+    fare: tripFare,
+    tip: tipAmount,
+    distance: activeTripData.distance,
+    duration: activeTripData.duration,
+    status: 'completed',
+    rating: currentRating,
+    date: new Date().toISOString()
+  });
+  
+  // 4. Update Driver earnings
+  const driver = WZ_DATA.drivers.find(d => d.id === 'd1');
+  if(driver) {
+    driver.earnings.today += total;
+    driver.trips += 1;
+    driver.rating = ((driver.rating * (driver.trips - 1)) + currentRating) / driver.trips;
+    driver.rating = Math.round(driver.rating * 10) / 10;
+  }
+
+  WZ_DATA.save();
+
+  WZ_APP.showToast('Paid from Whish Wallet! Thank you.', 'success');
+  setTimeout(() => {
+    window.location.href = 'history.html';
+  }, 1000);
+}
+</script>
+</body>
+</html>

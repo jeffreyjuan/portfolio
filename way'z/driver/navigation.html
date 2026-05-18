@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Way'z Driver — Navigation</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/driver.css">
+  <style>
+    #nav-map { width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 1; }
+    
+    /* Turn-by-Turn Header */
+    .nav-header {
+      position: absolute; top: var(--wz-space-4); left: var(--wz-space-4); right: var(--wz-space-4);
+      background: var(--wz-bg-card); backdrop-filter: blur(15px); border: 1px solid var(--wz-border);
+      border-radius: var(--wz-radius-xl); padding: var(--wz-space-4); z-index: 10;
+      display: flex; align-items: center; gap: var(--wz-space-4); box-shadow: var(--wz-shadow-lg);
+    }
+    .direction-icon {
+      width: 50px; height: 50px; background: var(--wz-gradient-primary);
+      border-radius: var(--wz-radius-lg); display: flex; align-items: center;
+      justify-content: center; font-size: 24px; color: white;
+    }
+
+    /* Bottom Trip Control Sheet */
+    .trip-sheet {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 10;
+      background: var(--wz-bg-secondary); border-top: 1px solid var(--wz-border);
+      border-radius: var(--wz-radius-xl) var(--wz-radius-xl) 0 0; padding: var(--wz-space-5);
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.4); transition: all 0.3s ease;
+    }
+    
+    .action-slider {
+      width: 100%; height: 60px; background: rgba(123,47,242,0.1); border: 1px solid var(--wz-border-active);
+      border-radius: var(--wz-radius-full); position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center; font-weight: 800;
+      font-size: 18px; color: var(--wz-purple-light); cursor: pointer; text-transform: uppercase;
+      transition: all 0.3s;
+    }
+    .action-slider:hover { background: rgba(123,47,242,0.2); }
+    .action-slider.state-start { color: var(--wz-success); border-color: var(--wz-success); background: rgba(0,230,118,0.1); }
+    .action-slider.state-complete { color: white; border: none; background: #E3004F; box-shadow: 0 0 20px rgba(227,0,79,0.4); }
+  </style>
+</head>
+<body>
+<div class="wz-driver-app" style="position:relative; height:100vh; overflow:hidden;">
+  
+  <div class="nav-header">
+    <div class="direction-icon" id="dir-icon">⬆️</div>
+    <div style="flex:1;">
+      <div style="font-family:var(--wz-font-display); font-size:28px; font-weight:800; line-height:1;" id="nav-dist">800 m</div>
+      <div style="color:var(--wz-text-muted); font-weight:500; font-size:var(--wz-text-sm);" id="nav-street">Continue on Charles Malek Ave</div>
+    </div>
+    <button class="wz-btn wz-btn-secondary" style="border-radius:50%; width:44px; height:44px; padding:0;" onclick="WZ_APP.showToast('Route re-centered', 'info')">🎯</button>
+  </div>
+
+  <div id="nav-map"></div>
+
+  <div class="trip-sheet">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--wz-space-4);">
+      <div style="display:flex; align-items:center; gap:var(--wz-space-3);">
+        <div class="wz-avatar" style="width:48px;height:48px;">KH</div>
+        <div>
+          <div style="font-weight:700; font-size:18px;">Karim Haddad</div>
+          <div style="font-size:var(--wz-text-sm); color:var(--wz-text-muted);" id="trip-phase">Picking up in 2 min</div>
+        </div>
+      </div>
+      <div style="display:flex; gap:var(--wz-space-2);">
+        <button class="wz-btn wz-btn-secondary" style="width:44px;height:44px;padding:0;border-radius:50%;" onclick="WZ_APP.showToast('Calling rider...', 'info')">📞</button>
+        <button class="wz-btn wz-btn-secondary" style="width:44px;height:44px;padding:0;border-radius:50%;" onclick="WZ_APP.showToast('Opening chat...', 'info')">💬</button>
+      </div>
+    </div>
+
+    <div class="action-slider" id="main-action-btn" onclick="advanceTripState()">
+      TAP TO ARRIVE
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const GOOGLE_MAPS_API_KEY = "YOUR_API_KEY_HERE";
+  const WZ_GOOGLE_MAPS_LIBRARIES = "";
+  const wzGoogleMapsScript = document.createElement('script');
+  wzGoogleMapsScript.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}${WZ_GOOGLE_MAPS_LIBRARIES ? '&libraries=' + WZ_GOOGLE_MAPS_LIBRARIES : ''}`;
+  wzGoogleMapsScript.defer = true;
+  document.head.appendChild(wzGoogleMapsScript);
+</script>
+<script src="../js/map.js"></script>
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script>
+let map;
+let directionsRenderer;
+let driverMarker;
+let pickupMarker;
+let destMarker;
+
+// Trip States: 0 = Heading to Pickup, 1 = Arrived at Pickup, 2 = Heading to Dest
+let tripState = 0; 
+let navInterval;
+
+// Mock Locations (Driver, Pickup, Destination)
+const locDriver = { lat: 33.8950, lng: 35.5050 };
+const locPickup = { lat: 33.8886, lng: 35.5264 }; // Achrafieh
+const locDest = { lat: 33.8938, lng: 35.5018 };   // Downtown
+
+document.addEventListener('DOMContentLoaded', () => {
+  map = WZ_MAP.create('nav-map', { center: locDriver, zoom: 16, disableDefaultUI: true });
+  driverMarker = WZ_MAP.addEmojiMarker(map, locDriver, '🚙', 45);
+  pickupMarker = WZ_MAP.addMarker(map, locPickup, 'pickup');
+  
+  directionsRenderer = new google.maps.DirectionsRenderer({
+    map: map, suppressMarkers: true,
+    polylineOptions: { strokeColor: '#00D4FF', strokeWeight: 6, strokeOpacity: 0.9 }
+  });
+
+  // Start Phase 1: Route to Pickup
+  calculateAndAnimateRoute(locDriver, locPickup, 'pickup');
+});
+
+function calculateAndAnimateRoute(start, end, phase) {
+  const ds = new google.maps.DirectionsService();
+  ds.route({
+    origin: start,
+    destination: end,
+    travelMode: google.maps.TravelMode.DRIVING,
+  }, (result, status) => {
+    if (status !== 'OK') return;
+    
+    // Draw line
+    const path = result.routes[0].overview_path;
+    const polyline = new google.maps.Polyline({
+      path: path, strokeColor: phase === 'pickup' ? '#7B2FF2' : '#00D4FF', 
+      strokeWeight: 6, strokeOpacity: 0.9, map: map
+    });
+
+    const totalSteps = path.length;
+    let stepIdx = 0;
+
+    navInterval = setInterval(() => {
+      if (stepIdx < totalSteps - 1) {
+        stepIdx = Math.min(stepIdx + Math.ceil(totalSteps / 10), totalSteps - 1);
+        const currentPos = path[stepIdx];
+        
+        driverMarker.setPosition(currentPos);
+        polyline.setPath(path.slice(stepIdx)); // Shrink line behind car
+        
+        // Dynamic Camera: follow the car!
+        map.panTo(currentPos);
+
+        // Update mock nav instructions
+        const remaining = Math.round((1 - (stepIdx / totalSteps)) * 1000);
+        document.getElementById('nav-dist').textContent = Math.max(10, remaining) + ' m';
+        
+        if (stepIdx >= totalSteps - 1) {
+          clearInterval(navInterval);
+          document.getElementById('nav-dist').textContent = 'Arrived';
+          document.getElementById('nav-street').textContent = 'You have reached the destination.';
+          document.getElementById('dir-icon').textContent = '📍';
+        }
+      }
+    }, 1500);
+  });
+}
+
+function advanceTripState() {
+  const btn = document.getElementById('main-action-btn');
+  const phaseText = document.getElementById('trip-phase');
+  
+  if (tripState === 0) {
+    // Driver taps "Arrived" at pickup
+    tripState = 1;
+    clearInterval(navInterval); // Stop movement if tapped early
+    btn.textContent = 'SWIPE TO START TRIP';
+    btn.className = 'action-slider state-start';
+    phaseText.textContent = 'Waiting for rider...';
+    WZ_APP.showToast('Rider notified of your arrival', 'success');
+  } 
+  else if (tripState === 1) {
+    // Driver taps "Start Trip"
+    tripState = 2;
+    pickupMarker.setMap(null); // Remove pickup pin
+    destMarker = WZ_MAP.addMarker(map, locDest, 'destination'); // Add dropoff pin
+    
+    btn.textContent = 'COMPLETE TRIP';
+    btn.className = 'action-slider state-complete';
+    phaseText.textContent = 'Heading to Dropoff (Downtown)';
+    document.getElementById('dir-icon').textContent = '↗️';
+    
+    WZ_APP.showToast('Trip started!', 'info');
+    
+    // Clear old route map, generate new route to destination
+    calculateAndAnimateRoute(driverMarker.getPosition(), locDest, 'dropoff');
+  } 
+  else if (tripState === 2) {
+    // Driver completes the trip
+    clearInterval(navInterval);
+    
+    // Simulate updating driver wallet in DB
+    const driver = WZ_DATA.drivers[0];
+    driver.earnings.today += 4.50;
+    driver.trips += 1;
+    WZ_DATA.save();
+
+    btn.textContent = 'PROCESSING PAYMENT...';
+    btn.style.pointerEvents = 'none';
+    btn.style.opacity = '0.7';
+
+    setTimeout(() => {
+      WZ_APP.showToast('Fare collected: $4.50', 'success');
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 1000);
+    }, 1500);
+  }
+}
+</script>
+</body>
+</html>

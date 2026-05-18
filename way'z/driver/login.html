@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Way'z — Drive With Us</title>
+  <meta name="description" content="Join Way'z as a driver partner in Lebanon.">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/rider.css">
+  <link rel="stylesheet" href="../css/driver.css">
+</head>
+<body>
+<div class="wz-auth-page">
+  <div class="wz-auth-visual" style="background:linear-gradient(135deg,rgba(123,47,242,0.15),rgba(0,212,255,0.08));">
+    <div class="wz-auth-visual-content anim-fade-in">
+      <span class="wz-auth-car-icon">🚘</span>
+      <h2>Drive with <span class="wz-text-gradient">Way'z</span></h2>
+      <p>Set your own schedule. Earn on your terms across Lebanon.</p>
+      <div style="margin-top:var(--wz-space-6);display:flex;gap:var(--wz-space-6);justify-content:center;">
+        <div style="text-align:center;"><div style="font-size:var(--wz-text-2xl);font-weight:800;">$800+</div><div style="font-size:var(--wz-text-xs);color:var(--wz-text-muted);">Avg weekly</div></div>
+        <div style="text-align:center;"><div style="font-size:var(--wz-text-2xl);font-weight:800;">1,800+</div><div style="font-size:var(--wz-text-xs);color:var(--wz-text-muted);">Drivers</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="wz-auth-form-side">
+    <div class="wz-auth-form-container anim-fade-in-up">
+      <div class="wz-logo"><span>way'z</span> <small style="font-size:var(--wz-text-xs);color:var(--wz-text-muted);font-weight:400;">driver</small></div>
+      <p class="subtitle">Sign in to your driver account</p>
+      <div class="wz-auth-tabs">
+        <div class="wz-auth-tab active" data-tab="login" onclick="switchTab('login')">Sign In</div>
+        <div class="wz-auth-tab" data-tab="signup" onclick="switchTab('signup')">Register</div>
+      </div>
+      <form id="login-form" onsubmit="handleLogin(event)">
+        <div class="wz-form-group"><label class="wz-input-label">Phone Number</label><div class="wz-phone-input"><div class="wz-phone-prefix">🇱🇧 +961</div><input type="tel" class="wz-input" placeholder="71 222 111" required></div></div>
+        <div class="wz-form-group"><label class="wz-input-label">Password</label><input type="password" class="wz-input" placeholder="Enter your password" required></div>
+        <button type="submit" class="wz-btn wz-btn-primary wz-btn-lg" style="width:100%;margin-top:var(--wz-space-2);">Sign In</button>
+      </form>
+      <form id="signup-form" style="display:none;" onsubmit="handleSignup(event)">
+        <div class="wz-form-group"><label class="wz-input-label">Full Name</label><input type="text" class="wz-input" placeholder="Hassan Fawaz" required></div>
+        <div class="wz-form-group"><label class="wz-input-label">Phone</label><div class="wz-phone-input"><div class="wz-phone-prefix">🇱🇧 +961</div><input type="tel" class="wz-input" placeholder="71 222 111" required></div></div>
+        <div class="wz-form-group"><label class="wz-input-label">Vehicle Type</label><select class="wz-input"><option value="economy">Economy</option><option value="comfort">Comfort</option><option value="premium">Premium</option><option value="xl">XL</option></select></div>
+        <div class="wz-form-group"><label class="wz-input-label">Password</label><input type="password" class="wz-input" placeholder="Create a password" required></div>
+        <button type="submit" class="wz-btn wz-btn-primary wz-btn-lg" style="width:100%;margin-top:var(--wz-space-2);">Register</button>
+      </form>
+      <p style="text-align:center;margin-top:var(--wz-space-6);font-size:var(--wz-text-xs);color:var(--wz-text-muted);">Looking to ride? <a href="../rider/login.html">Sign up as a rider</a></p>
+    </div>
+  </div>
+</div>
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.wz-auth-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+  document.getElementById('login-form').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('signup-form').style.display = tab === 'signup' ? 'block' : 'none';
+}
+function handleLogin(e) { e.preventDefault(); WZ_APP.login('driver','d1'); setTimeout(() => window.location.href='dashboard.html', 500); }
+function handleSignup(e) { e.preventDefault(); WZ_APP.login('driver','d1'); WZ_APP.showToast('Registration submitted!','success'); setTimeout(() => window.location.href='dashboard.html', 800); }
+</script>
+</body>
+</html>

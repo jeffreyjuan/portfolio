@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Way'z Admin — Settings</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+<div class="wz-admin-layout">
+  <aside class="wz-admin-sidebar">
+    <div class="logo-area"><div class="wz-logo"><span>way'z</span></div><small>Admin Panel</small></div>
+    <nav class="wz-admin-nav">
+      <a href="dashboard.html"><span class="icon">📊</span> Dashboard</a>
+      <a href="users.html"><span class="icon">👥</span> Users</a>
+      <a href="drivers.html"><span class="icon">🚘</span> Drivers</a>
+      <a href="rides.html"><span class="icon">🗺️</span> Rides</a>
+      <a href="settings.html" class="active"><span class="icon">⚙️</span> Settings</a>
+      <div class="spacer"></div>
+      <a href="../index.html"><span class="icon">🏠</span> Back to Site</a>
+    </nav>
+    <div class="wz-sidebar-footer"><div class="wz-admin-user"><div class="wz-avatar" style="width:32px;height:32px;font-size:11px;">AD</div><div><div style="font-weight:500;font-size:var(--wz-text-sm);">Admin</div></div></div></div>
+  </aside>
+  <main class="wz-admin-main">
+    <div class="wz-admin-topbar"><h1>Platform Settings</h1></div>
+
+    <div class="wz-admin-card" style="margin-bottom:var(--wz-space-6);">
+      <div class="card-header"><h3>💰 Pricing Configuration</h3></div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:var(--wz-space-4);">
+        <div>
+          <div style="font-size:var(--wz-text-xs);color:var(--wz-text-muted);margin-bottom:var(--wz-space-2);">Economy</div>
+          <div class="wz-form-group"><label class="wz-input-label">Base ($)</label><input type="number" class="wz-input" value="2.00" step="0.5"></div>
+          <div class="wz-form-group"><label class="wz-input-label">Per km ($)</label><input type="number" class="wz-input" value="0.50" step="0.1"></div>
+          <div class="wz-form-group"><label class="wz-input-label">Per min ($)</label><input type="number" class="wz-input" value="0.10" step="0.05"></div>
+        </div>
+        <div>
+          <div style="font-size:var(--wz-text-xs);color:var(--wz-text-muted);margin-bottom:var(--wz-space-2);">Comfort</div>
+          <div class="wz-form-group"><label class="wz-input-label">Base ($)</label><input type="number" class="wz-input" value="3.00" step="0.5"></div>
+          <div class="wz-form-group"><label class="wz-input-label">Per km ($)</label><input type="number" class="wz-input" value="0.75" step="0.1"></div>
+          <div class="wz-form-group"><label class="wz-input-label">Per min ($)</label><input type="number" class="wz-input" value="0.15" step="0.05"></div>
+        </div>
+        <div>
+          <div style="font-size:var(--wz-text-xs);color:var(--wz-text-muted);margin-bottom:var(--wz-space-2);">Premium</div>
+          <div class="wz-form-group"><label class="wz-input-label">Base ($)</label><input type="number" class="wz-input" value="5.00" step="0.5"></div>
+          <div class="wz-form-group"><label class="wz-input-label">Per km ($)</label><input type="number" class="wz-input" value="1.20" step="0.1"></div>
+          <div class="wz-form-group"><label class="wz-input-label">Per min ($)</label><input type="number" class="wz-input" value="0.25" step="0.05"></div>
+        </div>
+        <div>
+          <div style="font-size:var(--wz-text-xs);color:var(--wz-text-muted);margin-bottom:var(--wz-space-2);">XL</div>
+          <div class="wz-form-group"><label class="wz-input-label">Base ($)</label><input type="number" class="wz-input" value="4.00" step="0.5"></div>
+          <div class="wz-form-group"><label class="wz-input-label">Per km ($)</label><input type="number" class="wz-input" value="0.90" step="0.1"></div>
+          <div class="wz-form-group"><label class="wz-input-label">Per min ($)</label><input type="number" class="wz-input" value="0.18" step="0.05"></div>
+        </div>
+      </div>
+      <button class="wz-btn wz-btn-primary" style="margin-top:var(--wz-space-4);" onclick="WZ_APP.showToast('Pricing updated!','success')">Save Pricing</button>
+    </div>
+
+    <div class="wz-admin-card" style="margin-bottom:var(--wz-space-6);">
+      <div class="card-header"><h3>🛠️ Platform Features</h3></div>
+      <div style="font-size:var(--wz-text-xs);color:var(--wz-text-muted);margin-bottom:var(--wz-space-4);">Click on any badge to toggle the feature on or off globally.</div>
+      
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));gap:var(--wz-space-3);">
+        <div class="wz-glass" style="padding:var(--wz-space-3);border-radius:var(--wz-radius-md);display:flex;align-items:center;justify-content:space-between;gap:var(--wz-space-2);">
+          <span>Global Places Search API</span>
+          <button class="wz-badge active" style="flex-shrink:0; cursor:pointer; border:none; transition: all 0.3s;" onclick="toggleFeature(this)">Enabled</button>
+        </div>
+        <div class="wz-glass" style="padding:var(--wz-space-3);border-radius:var(--wz-radius-md);display:flex;align-items:center;justify-content:space-between;gap:var(--wz-space-2);">
+          <span>Multi-Wallet Support</span>
+          <button class="wz-badge active" style="flex-shrink:0; cursor:pointer; border:none; transition: all 0.3s;" onclick="toggleFeature(this)">Enabled</button>
+        </div>
+        <div class="wz-glass" style="padding:var(--wz-space-3);border-radius:var(--wz-radius-md);display:flex;align-items:center;justify-content:space-between;gap:var(--wz-space-2);">
+          <span>Live In-App Chat</span>
+          <button class="wz-badge active" style="flex-shrink:0; cursor:pointer; border:none; transition: all 0.3s;" onclick="toggleFeature(this)">Enabled</button>
+        </div>
+        <div class="wz-glass" style="padding:var(--wz-space-3);border-radius:var(--wz-radius-md);display:flex;align-items:center;justify-content:space-between;gap:var(--wz-space-2);">
+          <span>Auto Driver Matching</span>
+          <button class="wz-badge active" style="flex-shrink:0; cursor:pointer; border:none; transition: all 0.3s;" onclick="toggleFeature(this)">Enabled</button>
+        </div>
+        <div class="wz-glass" style="padding:var(--wz-space-3);border-radius:var(--wz-radius-md);display:flex;align-items:center;justify-content:space-between;gap:var(--wz-space-2);">
+          <span>Dynamic Map Routing</span>
+          <button class="wz-badge active" style="flex-shrink:0; cursor:pointer; border:none; transition: all 0.3s;" onclick="toggleFeature(this)">Enabled</button>
+        </div>
+        <div class="wz-glass" style="padding:var(--wz-space-3);border-radius:var(--wz-radius-md);display:flex;align-items:center;justify-content:space-between;gap:var(--wz-space-2);">
+          <span>Cash Payments</span>
+          <button class="wz-badge offline" style="flex-shrink:0; cursor:pointer; border:none; transition: all 0.3s;" onclick="toggleFeature(this)">Disabled</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="wz-admin-card" style="margin-bottom:var(--wz-space-6);">
+      <div class="card-header"><h3>⚙️ Platform Rules</h3></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--wz-space-4);">
+        <div class="wz-form-group"><label class="wz-input-label">Platform Commission (%)</label><input type="number" class="wz-input" value="20" min="0" max="50"></div>
+        <div class="wz-form-group"><label class="wz-input-label">Surge Multiplier Cap</label><input type="number" class="wz-input" value="3.0" step="0.5" min="1"></div>
+        <div class="wz-form-group"><label class="wz-input-label">Max Ride Distance (km)</label><input type="number" class="wz-input" value="200" min="10"></div>
+        <div class="wz-form-group"><label class="wz-input-label">Driver Request Timeout (s)</label><input type="number" class="wz-input" value="15" min="5" max="60"></div>
+      </div>
+      <button class="wz-btn wz-btn-primary" style="margin-top:var(--wz-space-4);" onclick="WZ_APP.showToast('Rules saved!','success')">Save Rules</button>
+    </div>
+
+    <div class="wz-admin-card" style="border-color:rgba(255,82,82,0.3);">
+      <div class="card-header"><h3 style="color:var(--wz-error);">⚠️ Danger Zone</h3></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:var(--wz-space-3) 0;border-bottom:1px solid var(--wz-border);">
+        <div><div style="font-weight:500;">Maintenance Mode</div><div style="font-size:var(--wz-text-xs);color:var(--wz-text-muted);">Temporarily disable new ride requests</div></div>
+        <button class="wz-btn wz-btn-ghost" style="color:var(--wz-error);font-size:var(--wz-text-sm);" onclick="WZ_APP.showToast('Maintenance mode toggled','warning')">Toggle</button>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:var(--wz-space-3) 0;">
+        <div><div style="font-weight:500;">Reset Platform Data</div><div style="font-size:var(--wz-text-xs);color:var(--wz-text-muted);">Clear all mock data and reset to defaults</div></div>
+        <button class="wz-btn wz-btn-ghost" style="color:var(--wz-error);font-size:var(--wz-text-sm);" onclick="WZ_APP.showToast('This is a demo — data cannot be reset','info')">Reset</button>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/admin.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => WZ_ADMIN.initSettings());
+
+// Simple toggle function for the feature badges
+function toggleFeature(btn) {
+  if(btn.classList.contains('active')) {
+    btn.classList.remove('active');
+    btn.classList.add('offline');
+    btn.textContent = 'Disabled';
+    WZ_APP.showToast('Feature Disabled', 'warning');
+  } else {
+    btn.classList.remove('offline');
+    btn.classList.add('active');
+    btn.textContent = 'Enabled';
+    WZ_APP.showToast('Feature Enabled', 'success');
+  }
+}
+</script>
+</body>
+</html>

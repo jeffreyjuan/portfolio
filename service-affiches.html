@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeffrey Juan | Affiches & Graphisme</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;500&family=Orbitron:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="custom-cursor"></div>
+    <canvas id="webgl-canvas"></canvas>
+    <div id="dark-backdrop"></div>
+
+    <nav id="navbar">
+        <a href="index.html" class="logo">JEFFREY<b>JUAN</b></a>
+        <div class="nav-links">
+            <div class="back-button-wrapper">
+                <a href="index.html#projets" class="cta-nav">
+                    <i class="fa-solid fa-arrow-left"></i> Retour
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="service-header">
+        <span class="badge">ADOBE ILLUSTRATOR / PHOTOSHOP</span>
+        <h1 class="outline">AFFICHES & GRAPHISME</h1>
+        <p>Inspiré par des esthétiques urbaines et underground, je crée des identités visuelles fortes, des logotypes mémorables et des compositions graphiques pour tous types de supports de communication.</p>
+    </header>
+
+    <section class="service-content">
+        <div class="project-highlight">
+            <span class="badge">AFFICHES</span>
+            <h2>Projet d'affiche et identité visuelle</h2>
+            <p>Chaque affiche est construite autour d'un concept fort : typographie assumée, univers sensoriel et message clair. Je travaille la direction artistique, les couleurs et l'équilibre visuel pour créer des supports à la fois impactants et cohérents avec l'objectif de communication.</p>
+            <p>Cliquer sur un visuel ouvre une fenêtre d'aperçu qui présente le concept de projet, les contraintes de production et les résultats attendus.</p>
+        </div>
+
+        <div class="service-grid">
+            <img src="images/Jeffrey_Juan_RenduVoyage_78.jpg" alt="Rendu Voyage" class="service-image popup-poster"
+                data-title="Rendu Voyage"
+                data-description="Composition graphique réalisée dans le cadre d'un rendu de voyage — direction artistique, mise en page et traitement visuel soignés." />
+            <img src="images/poster-upec.jpeg" alt="Affiche UPEC — Campagne Eau Douce" class="service-image popup-poster"
+                data-title="Campagne UPEC"
+                data-description="Affiche de campagne pour un projet étudiant autour de l'eau douce. Narration visuelle claire, contrastes organiques et ton engagé pour encourager la prise de conscience environnementale." />
+        </div>
+    </section>
+
+    <div id="poster-card" class="poster-card" aria-hidden="true">
+        <button class="poster-card-close" aria-label="Fermer la carte">✕</button>
+        <div class="poster-card-content">
+            <img class="poster-card-image" src="" alt="Aperçu du projet">
+            <div class="poster-card-text">
+                <h3 id="poster-card-title" class="poster-card-title"></h3>
+                <p class="poster-card-description"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="mailto:jeffrey.juan@hotmail.com" class="footer-mail" style="font-size: 2rem;">Lancer un projet ensemble</a>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const posterCard = document.getElementById('poster-card');
+            if (!posterCard) return;
+
+            const cardImage = posterCard.querySelector('.poster-card-image');
+            const cardTitle = posterCard.querySelector('.poster-card-title');
+            const cardDescription = posterCard.querySelector('.poster-card-description');
+            const closeButton = posterCard.querySelector('.poster-card-close');
+
+            function closePosterCard() {
+                posterCard.classList.remove('active');
+                posterCard.setAttribute('aria-hidden', 'true');
+            }
+
+            function openPosterCard(img) {
+                cardImage.src = img.src;
+                cardImage.alt = img.alt;
+                cardTitle.textContent = img.dataset.title;
+                cardDescription.textContent = img.dataset.description;
+                posterCard.classList.add('active');
+                posterCard.setAttribute('aria-hidden', 'false');
+            }
+
+            document.querySelectorAll('.popup-poster').forEach((img) => {
+                img.addEventListener('click', () => {
+                    openPosterCard(img);
+                });
+            });
+
+            closeButton.addEventListener('click', closePosterCard);
+
+            document.addEventListener('click', (event) => {
+                if (!posterCard.classList.contains('active')) return;
+                if (posterCard.contains(event.target)) return;
+                if (event.target.closest('.popup-poster')) return;
+                closePosterCard();
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && posterCard.classList.contains('active')) {
+                    closePosterCard();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeffrey Juan | Portfolio UX/UI & Graphisme</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;500&family=Orbitron:wght@700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+
+    <div id="custom-cursor"></div>
+    <canvas id="webgl-canvas"></canvas>
+
+    <div id="dark-backdrop"></div>
+
+    <nav id="navbar">
+        <div class="logo">JEFFREY<b>JUAN</b></div>
+        <div class="nav-links">
+            <a href="#realisations" class="nav-item">Réalisations</a>
+            <a href="https://www.linkedin.com/in/jeffrey-juan-29645439a" class="nav-item" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+            <a href="mailto:jeffrey.juan@hotmail.com" class="cta-nav">Contact</a>
+        </div>
+    </nav>
+
+    <section id="accueil" class="hero">
+        <div class="hero-text">
+            <span class="badge">ÉTUDIANT BUT MMI / RECHERCHE ALTERNANCE</span>
+            <h1>VISUAL<br><span class="outline">STORYTELLER</span></h1>
+            <p>Je suis Jeffrey Juan, étudiant en BUT Métiers du Multimédia et de l'Internet (MMI) et passionné par la création numérique. Alliant design (UX/UI, graphisme) et développement front-end, je conçois des interfaces esthétiques, intuitives et fonctionnelles. Actuellement à la recherche d'une alternance en UX/UI Design, je suis prêt à mettre ma créativité et ma maîtrise de Figma, de la suite Adobe et des technologies web au service de nouveaux défis.</p>
+            <div class="hero-btns">
+                <a href="#realisations" class="btn-primary">Voir mes réalisations</a>
+                <a href="attachments/CV-JUAN-Jeffrey.pdf" class="btn-secondary">CV.pdf</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="marquee">
+        <div class="marquee-content">
+            <span>FIGMA • PHOTOSHOP • ILLUSTRATOR • UX RESEARCH • UI DESIGN • THREE.JS • WEB DESIGN • BRANDING • TYPOGRAPHIE • </span>
+            <span>FIGMA • PHOTOSHOP • ILLUSTRATOR • UX RESEARCH • UI DESIGN • THREE.JS • WEB DESIGN • BRANDING • TYPOGRAPHIE • </span>
+        </div>
+    </div>
+
+    <section id="realisations" class="selected-works-section">
+        <h2 class="section-title">MES RÉALISATIONS</h2>
+        <div class="works-list">
+            <a href="service-uxui.html" class="work-item">
+                <span class="work-num">01</span>
+                <span class="work-title">Interface UX/UI</span>
+                <span class="work-arrow">→</span>
+            </a>
+            <a href="service-affiches.html" class="work-item">
+                <span class="work-num">02</span>
+                <span class="work-title">Affiches & Graphisme</span>
+                <span class="work-arrow">→</span>
+            </a>
+            <a href="service-cleaneat.html" class="work-item">
+                <span class="work-num">03</span>
+                <span class="work-title">Logos</span>
+                <span class="work-arrow">→</span>
+            </a>
+        </div>
+    </section>
+
+
+    <footer>
+        <h2>PRÊT POUR UNE <span class="orange">ALTERNANCE</span> ?</h2>
+        <p>Je suis disponible pour discuter de la manière dont je peux contribuer à votre équipe créative.</p>
+        <a href="mailto:jeffrey.juan@hotmail.com" class="footer-mail">jeffrey.juan@hotmail.com</a>
+        <a href="https://www.linkedin.com/in/jeffrey-juan-29645439a" class="footer-linkedin" target="_blank" rel="noopener">
+            <i class="fa-brands fa-linkedin"></i> LinkedIn
+        </a>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

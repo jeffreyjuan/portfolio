@@ -1,0 +1,653 @@
+/* ============================================
+   WAY'Z — Rider Interface Styles
+   ============================================ */
+
+/* --- Auth Pages --- */
+.wz-auth-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.wz-auth-visual {
+  position: relative;
+  background: var(--wz-bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.wz-auth-visual::before {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: var(--wz-purple);
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.2;
+}
+.wz-auth-visual-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: var(--wz-space-8);
+}
+.wz-auth-visual-content h2 {
+  font-size: var(--wz-text-4xl);
+  margin-bottom: var(--wz-space-4);
+}
+.wz-auth-visual-content p {
+  color: var(--wz-text-secondary);
+  max-width: 360px;
+  margin: 0 auto;
+}
+.wz-auth-car-icon {
+  font-size: 6rem;
+  margin-bottom: var(--wz-space-6);
+  display: block;
+  animation: float 3s ease-in-out infinite;
+}
+
+.wz-auth-form-side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--wz-space-8);
+}
+.wz-auth-form-container {
+  width: 100%;
+  max-width: 420px;
+}
+.wz-auth-form-container .wz-logo {
+  font-size: var(--wz-text-3xl);
+  margin-bottom: var(--wz-space-2);
+}
+.wz-auth-form-container .subtitle {
+  color: var(--wz-text-muted);
+  margin-bottom: var(--wz-space-8);
+}
+.wz-auth-tabs {
+  display: flex;
+  gap: var(--wz-space-1);
+  background: var(--wz-bg-tertiary);
+  border-radius: var(--wz-radius-full);
+  padding: 4px;
+  margin-bottom: var(--wz-space-8);
+}
+.wz-auth-tab {
+  flex: 1;
+  padding: var(--wz-space-3);
+  text-align: center;
+  border-radius: var(--wz-radius-full);
+  font-weight: 600;
+  font-size: var(--wz-text-sm);
+  cursor: pointer;
+  transition: all var(--wz-transition-base);
+  color: var(--wz-text-muted);
+}
+.wz-auth-tab.active {
+  background: var(--wz-gradient-primary);
+  color: white;
+  box-shadow: var(--wz-shadow-glow);
+}
+
+.wz-form-group {
+  margin-bottom: var(--wz-space-5);
+}
+.wz-phone-input {
+  display: flex;
+  gap: var(--wz-space-2);
+}
+.wz-phone-prefix {
+  display: flex;
+  align-items: center;
+  gap: var(--wz-space-2);
+  padding: var(--wz-space-3) var(--wz-space-3);
+  background: var(--wz-bg-input);
+  border: 1px solid var(--wz-border);
+  border-radius: var(--wz-radius-md);
+  font-size: var(--wz-text-sm);
+  color: var(--wz-text-secondary);
+  white-space: nowrap;
+}
+
+.wz-social-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--wz-space-4);
+  margin: var(--wz-space-6) 0;
+  color: var(--wz-text-muted);
+  font-size: var(--wz-text-xs);
+}
+.wz-social-divider::before,
+.wz-social-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--wz-border);
+}
+.wz-social-buttons {
+  display: flex;
+  gap: var(--wz-space-3);
+}
+.wz-social-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--wz-space-2);
+  padding: var(--wz-space-3);
+  background: var(--wz-bg-input);
+  border: 1px solid var(--wz-border);
+  border-radius: var(--wz-radius-md);
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: var(--wz-text-sm);
+}
+.wz-social-btn:hover {
+  border-color: var(--wz-border-active);
+  background: var(--wz-bg-tertiary);
+}
+
+@media (max-width: 768px) {
+  .wz-auth-page { grid-template-columns: 1fr; }
+  .wz-auth-visual { display: none; }
+}
+
+/* --- Dashboard Layout --- */
+.wz-rider-app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.wz-rider-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--wz-space-3) var(--wz-space-4);
+  background: var(--wz-bg-secondary);
+  border-bottom: 1px solid var(--wz-border);
+  z-index: var(--wz-z-sticky);
+}
+.wz-rider-header .wz-logo { font-size: var(--wz-text-xl); }
+.wz-rider-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--wz-space-2);
+}
+.wz-rider-nav a {
+  display: flex;
+  align-items: center;
+  gap: var(--wz-space-2);
+  padding: var(--wz-space-2) var(--wz-space-3);
+  border-radius: var(--wz-radius-md);
+  font-size: var(--wz-text-sm);
+  color: var(--wz-text-muted);
+  transition: all 0.3s;
+}
+.wz-rider-nav a:hover,
+.wz-rider-nav a.active {
+  color: var(--wz-text-primary);
+  background: var(--wz-bg-tertiary);
+}
+
+/* --- Map Area --- */
+.wz-map-area {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+.wz-map-area #rider-map {
+  width: 100%;
+  height: 100%;
+}
+
+/* --- Booking Panel --- */
+.wz-booking-panel {
+  position: absolute;
+  top: var(--wz-space-4);
+  left: var(--wz-space-4);
+  width: 380px;
+  max-height: calc(100vh - var(--wz-space-8));
+  z-index: var(--wz-z-dropdown);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: var(--wz-space-2);
+}
+.wz-booking-panel::-webkit-scrollbar {
+  width: 6px;
+}
+.wz-booking-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+.wz-booking-panel::-webkit-scrollbar-thumb {
+  background: var(--wz-border-active);
+  border-radius: 3px;
+}
+.wz-booking-panel::-webkit-scrollbar-thumb:hover {
+  background: var(--wz-purple);
+}
+.wz-booking-card {
+  background: var(--wz-bg-glass);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--wz-border);
+  border-radius: var(--wz-radius-xl);
+  padding: var(--wz-space-6);
+  box-shadow: var(--wz-shadow-xl);
+}
+
+.wz-location-inputs {
+  position: relative;
+  margin-bottom: var(--wz-space-5);
+}
+.wz-location-dot {
+  position: absolute;
+  left: 14px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  z-index: 2;
+}
+.wz-location-dot.pickup {
+  top: 18px;
+  background: var(--wz-success);
+  box-shadow: 0 0 8px rgba(0,230,118,0.5);
+}
+.wz-location-dot.dest {
+  bottom: 18px;
+  background: var(--wz-purple);
+  box-shadow: 0 0 8px rgba(123,47,242,0.5);
+}
+.wz-location-line {
+  position: absolute;
+  left: 18px;
+  top: 32px;
+  bottom: 32px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--wz-success), var(--wz-purple));
+  z-index: 1;
+}
+.wz-location-inputs .wz-input {
+  padding-left: var(--wz-space-10);
+  margin-bottom: var(--wz-space-2);
+}
+.wz-location-inputs .wz-input:last-child {
+  margin-bottom: 0;
+}
+
+/* --- Location Suggestions Dropdown --- */
+.wz-suggestions {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: var(--wz-bg-secondary);
+  border: 1px solid var(--wz-border);
+  border-radius: var(--wz-radius-md);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: var(--wz-z-dropdown);
+  display: none;
+}
+.wz-suggestions.active { display: block; animation: fadeInDown 0.2s ease; }
+.wz-suggestion {
+  padding: var(--wz-space-3) var(--wz-space-4);
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: var(--wz-space-3);
+  font-size: var(--wz-text-sm);
+}
+.wz-suggestion:hover { background: var(--wz-bg-tertiary); }
+.wz-suggestion .area { color: var(--wz-text-muted); font-size: var(--wz-text-xs); }
+
+/* --- Vehicle Selector --- */
+.wz-vehicle-selector {
+  display: flex;
+  gap: var(--wz-space-2);
+  margin-bottom: var(--wz-space-5);
+  overflow-x: auto;
+  padding-bottom: var(--wz-space-2);
+}
+.wz-vehicle-option {
+  flex: 1;
+  min-width: 75px;
+  padding: var(--wz-space-3) var(--wz-space-2);
+  background: var(--wz-bg-tertiary);
+  border: 1px solid var(--wz-border);
+  border-radius: var(--wz-radius-md);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.wz-vehicle-option:hover {
+  border-color: var(--wz-border-active);
+}
+.wz-vehicle-option.selected {
+  border-color: var(--wz-purple);
+  background: rgba(123,47,242,0.1);
+  box-shadow: var(--wz-shadow-glow);
+}
+.wz-vehicle-option .icon { font-size: 1.5rem; margin-bottom: var(--wz-space-1); }
+.wz-vehicle-option .name { font-size: var(--wz-text-xs); font-weight: 600; }
+.wz-vehicle-option .price { font-size: var(--wz-text-xs); color: var(--wz-cyan); margin-top: 2px; }
+
+/* --- Fare Estimate --- */
+.wz-fare-estimate {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--wz-space-3) var(--wz-space-4);
+  background: var(--wz-bg-tertiary);
+  border-radius: var(--wz-radius-md);
+  margin-bottom: var(--wz-space-5);
+}
+.wz-fare-estimate .label { font-size: var(--wz-text-xs); color: var(--wz-text-muted); }
+.wz-fare-estimate .amount { font-family: var(--wz-font-display); font-size: var(--wz-text-xl); font-weight: 700; }
+.wz-fare-details { display: flex; gap: var(--wz-space-4); font-size: var(--wz-text-xs); color: var(--wz-text-muted); }
+
+/* --- Request Ride Button --- */
+.wz-request-btn {
+  width: 100%;
+  padding: var(--wz-space-4);
+  font-size: var(--wz-text-base);
+  border-radius: var(--wz-radius-lg);
+}
+
+/* --- Searching State --- */
+.wz-searching-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--wz-z-overlay);
+  backdrop-filter: blur(4px);
+}
+.wz-searching-ripple {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin-bottom: var(--wz-space-6);
+}
+.wz-searching-ripple .ring {
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--wz-purple);
+  border-radius: 50%;
+  animation: pulseRing 2s ease-out infinite;
+}
+.wz-searching-ripple .ring:nth-child(2) { animation-delay: 0.5s; }
+.wz-searching-ripple .ring:nth-child(3) { animation-delay: 1s; }
+.wz-searching-ripple .center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background: var(--wz-purple);
+  border-radius: 50%;
+  box-shadow: var(--wz-shadow-glow);
+}
+.wz-searching-text {
+  font-family: var(--wz-font-display);
+  font-size: var(--wz-text-lg);
+  font-weight: 600;
+}
+
+/* --- Driver Found Card --- */
+.wz-driver-card {
+  position: absolute;
+  bottom: var(--wz-space-4);
+  left: var(--wz-space-4);
+  right: var(--wz-space-4);
+  max-width: 500px;
+  margin: 0 auto;
+  z-index: var(--wz-z-dropdown);
+  animation: slideUp 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+.wz-driver-info {
+  display: flex;
+  align-items: center;
+  gap: var(--wz-space-4);
+  margin-bottom: var(--wz-space-4);
+}
+.wz-driver-details h3 { font-size: var(--wz-text-lg); }
+.wz-driver-details .rating {
+  color: var(--wz-warning);
+  font-size: var(--wz-text-sm);
+}
+.wz-driver-vehicle {
+  font-size: var(--wz-text-xs);
+  color: var(--wz-text-muted);
+}
+.wz-driver-eta {
+  text-align: right;
+  flex-shrink: 0;
+}
+.wz-driver-eta .time {
+  font-family: var(--wz-font-display);
+  font-size: var(--wz-text-2xl);
+  font-weight: 800;
+  color: var(--wz-cyan);
+}
+.wz-driver-eta .label {
+  font-size: var(--wz-text-xs);
+  color: var(--wz-text-muted);
+}
+.wz-driver-actions {
+  display: flex;
+  gap: var(--wz-space-3);
+}
+.wz-driver-actions .wz-btn { flex: 1; }
+
+/* --- Trip Progress --- */
+.wz-trip-progress {
+  margin: var(--wz-space-4) 0;
+}
+.wz-trip-progress-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--wz-bg-tertiary);
+  border-radius: var(--wz-radius-full);
+  overflow: hidden;
+}
+.wz-trip-progress-fill {
+  height: 100%;
+  background: var(--wz-gradient-primary);
+  border-radius: var(--wz-radius-full);
+  transition: width 1s ease;
+}
+.wz-trip-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--wz-space-2);
+  font-size: var(--wz-text-xs);
+  color: var(--wz-text-muted);
+}
+
+/* --- Ride History --- */
+.wz-page-layout {
+  min-height: 100vh;
+  background: var(--wz-bg-primary);
+}
+.wz-page-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--wz-space-8) var(--wz-space-4);
+}
+.wz-page-title {
+  font-size: var(--wz-text-3xl);
+  margin-bottom: var(--wz-space-8);
+}
+
+.wz-ride-item {
+  display: flex;
+  align-items: center;
+  gap: var(--wz-space-4);
+  padding: var(--wz-space-5);
+  background: var(--wz-bg-card);
+  border: 1px solid var(--wz-border);
+  border-radius: var(--wz-radius-lg);
+  margin-bottom: var(--wz-space-3);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.wz-ride-item:hover {
+  border-color: var(--wz-border-active);
+  transform: translateX(4px);
+}
+.wz-ride-route-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: var(--wz-text-muted);
+  font-size: var(--wz-text-xs);
+}
+.wz-ride-route-icon .dot-green { width: 8px; height: 8px; border-radius: 50%; background: var(--wz-success); }
+.wz-ride-route-icon .line { width: 2px; height: 20px; background: var(--wz-border); }
+.wz-ride-route-icon .dot-purple { width: 8px; height: 8px; border-radius: 50%; background: var(--wz-purple); }
+.wz-ride-info { flex: 1; }
+.wz-ride-info .from-to { font-size: var(--wz-text-sm); font-weight: 500; }
+.wz-ride-info .meta { font-size: var(--wz-text-xs); color: var(--wz-text-muted); margin-top: 2px; }
+.wz-ride-price { text-align: right; }
+.wz-ride-price .amount { font-family: var(--wz-font-display); font-weight: 700; }
+.wz-ride-price .status { font-size: var(--wz-text-xs); color: var(--wz-success); }
+
+/* --- Profile Page --- */
+.wz-profile-header {
+  text-align: center;
+  padding: var(--wz-space-8) 0;
+}
+.wz-profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--wz-gradient-primary);
+  margin: 0 auto var(--wz-space-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--wz-text-4xl);
+  font-family: var(--wz-font-display);
+  font-weight: 700;
+  position: relative;
+}
+.wz-profile-avatar .edit-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 28px;
+  height: 28px;
+  background: var(--wz-bg-secondary);
+  border: 2px solid var(--wz-purple);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.wz-profile-stats {
+  display: flex;
+  justify-content: center;
+  gap: var(--wz-space-8);
+  margin-top: var(--wz-space-6);
+}
+.wz-profile-stat .value {
+  font-family: var(--wz-font-display);
+  font-size: var(--wz-text-2xl);
+  font-weight: 700;
+}
+.wz-profile-stat .label {
+  font-size: var(--wz-text-xs);
+  color: var(--wz-text-muted);
+}
+
+.wz-settings-group {
+  margin-bottom: var(--wz-space-6);
+}
+.wz-settings-group h3 {
+  font-size: var(--wz-text-sm);
+  color: var(--wz-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--wz-space-3);
+}
+.wz-settings-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--wz-space-4);
+  background: var(--wz-bg-card);
+  border: 1px solid var(--wz-border);
+  border-radius: var(--wz-radius-md);
+  margin-bottom: var(--wz-space-2);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.wz-settings-item:hover {
+  border-color: var(--wz-border-active);
+}
+.wz-settings-item .left {
+  display: flex;
+  align-items: center;
+  gap: var(--wz-space-3);
+}
+.wz-settings-item .icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--wz-radius-md);
+  background: var(--wz-bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+.wz-settings-item .chevron {
+  color: var(--wz-text-muted);
+}
+
+/* --- Saved Places --- */
+.wz-saved-place {
+  display: flex;
+  align-items: center;
+  gap: var(--wz-space-3);
+  padding: var(--wz-space-3) var(--wz-space-4);
+  background: var(--wz-bg-tertiary);
+  border-radius: var(--wz-radius-md);
+  margin-bottom: var(--wz-space-2);
+  font-size: var(--wz-text-sm);
+}
+.wz-saved-place .place-icon {
+  font-size: 1rem;
+}
+.wz-saved-place .place-name {
+  font-weight: 600;
+}
+.wz-saved-place .place-addr {
+  font-size: var(--wz-text-xs);
+  color: var(--wz-text-muted);
+}
+
+@media (max-width: 768px) {
+  .wz-booking-panel {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  .wz-booking-card {
+    border-radius: var(--wz-radius-xl) var(--wz-radius-xl) 0 0;
+  }
+}
